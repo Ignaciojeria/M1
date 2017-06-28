@@ -2,13 +2,14 @@ package com.example.QuartsTasksMetro.Entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -32,15 +33,20 @@ public class Tarjeta {
 	
 	@Column(name="fechaExpiracion", nullable=false)
 	private Date fechaExpiracion;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="FK_rut")
+	private Usuario usuario;
 
 	public Tarjeta(){}
 	
-	public Tarjeta(long id, long codigoTarjeta, boolean activa, Date fechaInicial, Date fechaExpiracion) {
+	public Tarjeta(long id, long codigoTarjeta, boolean activa, Date fechaInicial, Date fechaExpiracion, Usuario usuario) {
 		this.id = id;
 		this.codigoTarjeta = codigoTarjeta;
 		this.activa = activa;
 		this.fechaInicial = fechaInicial;
 		this.fechaExpiracion = fechaExpiracion;
+		this.usuario=usuario;
 	}
 
 	public long getId() {
@@ -82,6 +88,24 @@ public class Tarjeta {
 	public void setFechaExpiracion(Date fechaExpiracion) {
 		this.fechaExpiracion = fechaExpiracion;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Date getFechaInicial() {
+		return fechaInicial;
+	}
+
+	public Date getFechaExpiracion() {
+		return fechaExpiracion;
+	}
+	
+	
 	
 
 }

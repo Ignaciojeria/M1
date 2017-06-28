@@ -21,15 +21,8 @@ public class MockUsuario implements ImockCRUD {
 	@Override
 	public void rellenar() {
 		// TODO Auto-generated method stub
-		try{
-			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = fmt.parse("2013-05-06");
-			usuarioRepository.save(new Usuario("Ignacio",23,18666636,4,new Tarjeta(1,900,true,date,date)));
-			usuarioRepository.save(new Usuario("Ignacio",23,18666636,4,new Tarjeta(4,950,true,date,date)));
-		}catch(Exception e){
-			
-		}
-		
+			usuarioRepository.save(new Usuario("Ignacio",23,18666636,4));
+			usuarioRepository.save(new Usuario("juanito",18,18666633,2));
 	}
 
 }

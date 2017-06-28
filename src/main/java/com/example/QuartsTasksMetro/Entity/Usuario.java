@@ -3,8 +3,6 @@ package com.example.QuartsTasksMetro.Entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,18 +22,16 @@ public class Usuario {
 	@Column(name="dvrut", nullable=false)
 	private int dvrut;
 	
-	@OneToOne
-	@JoinColumn(name="FK_codigoTarjeta")
-	private Tarjeta tarjeta;
+
 	
 	public Usuario(){}
 
-	public Usuario(String nombre, int edad, int rut, int dvrut, Tarjeta tarjeta) {
+	public Usuario(String nombre, int edad, int rut, int dvrut) {
 		this.nombre = nombre;
 		this.edad = edad;
 		this.rut = rut;
 		this.dvrut = dvrut;
-		this.tarjeta=tarjeta;
+		
 	}
 
 	public String getNombre() {
@@ -68,14 +64,6 @@ public class Usuario {
 
 	public void setDvrut(int dvrut) {
 		this.dvrut = dvrut;
-	}
-
-	public Tarjeta getTarjeta() {
-		return tarjeta;
-	}
-
-	public void setTarjeta(Tarjeta tarjeta) {
-		this.tarjeta = tarjeta;
 	}
 	
 	
