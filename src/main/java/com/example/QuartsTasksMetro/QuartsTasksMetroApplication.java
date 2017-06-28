@@ -14,9 +14,11 @@ import com.example.QuartsTasksMetro.Device.PullSdk;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
 import com.example.QuartsTasksMetro.Mock.MockTarjeta;
+import com.example.QuartsTasksMetro.Mock.MockUsuario;
 import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
+import com.example.QuartsTasksMetro.Repository.UsuarioRepository;
 import com.example.QuartsTasksMetro.Tasks.TransaccionTask;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
@@ -28,6 +30,9 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 	 
 	 @Autowired
 	 private TarjetaRepository tarjetaRepository;
+	 
+	 @Autowired 
+	 private UsuarioRepository usuarioRepository;
 	 
 	 @Autowired 
 	 private TransaccionRepository transaccionRepository;
@@ -49,6 +54,9 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 
 		MockTarjeta mockTarjeta= new MockTarjeta(tarjetaRepository);
 		mockTarjeta.rellenar();
+		
+		MockUsuario mockUsuario= new MockUsuario(usuarioRepository);
+		mockUsuario.rellenar();
 		
 		TransaccionTask transaccionTask= new TransaccionTask();
 		Connection.connectToticketing();

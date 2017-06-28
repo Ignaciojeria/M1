@@ -81,7 +81,7 @@ public class TransaccionTask implements Job {
 				try{
 					SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 					Date date = fmt.parse("2013-05-06");
-					transaccionRepository.save(new Transaccion(date,id,"Ticketing",1,new Tarjeta(1,900,true,true,true)));
+					transaccionRepository.save(new Transaccion(date,id,"Ticketing",1,new Tarjeta(1,900,true,date,date)));
 				}catch(Exception e){
 				}
 				

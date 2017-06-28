@@ -3,6 +3,7 @@ package com.example.QuartsTasksMetro.Entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class Transaccion {
 	private Date fechaTransaccion;
 	
 	@Id
-	//@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="numeroTransaccion",unique=true, nullable=false)
 	private long numeroTransaccion;
 	
@@ -30,7 +31,7 @@ public class Transaccion {
 	@Column(name="puerta")
 	private int puerta;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="FK_codigoTarjeta")
 	private Tarjeta tarjeta;
 	

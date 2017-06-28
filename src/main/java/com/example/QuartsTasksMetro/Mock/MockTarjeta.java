@@ -1,5 +1,8 @@
 package com.example.QuartsTasksMetro.Mock;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.QuartsTasksMetro.Entity.Tarjeta;
@@ -16,8 +19,16 @@ public class MockTarjeta implements ImockCRUD {
 	}
 	
 	public void rellenar(){
-		tarjetaRepository.save(new Tarjeta(1,900,true,true,true));
-		tarjetaRepository.save(new Tarjeta(2,800,true,true,true));
-		tarjetaRepository.save(new Tarjeta(3,700,true,true,true));
+		try{
+			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = fmt.parse("2013-05-06");
+
+			tarjetaRepository.save(new Tarjeta(1,900,true,date,date));
+			tarjetaRepository.save(new Tarjeta(2,800,true,date,date));
+			tarjetaRepository.save(new Tarjeta(3,700,true,date,date));
+		}catch(Exception e){
+			
+		}
+
 	}
 }
