@@ -16,12 +16,12 @@ import javax.persistence.Table;
 @Table(name="Transaccion")
 public class Transaccion {
 	
-	@Column(name="fechaTransaccion", unique=true, nullable=false)
+	@Column(name="fechaTransaccion", nullable=false)
 	private Date fechaTransaccion;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="numeroTransaccion", unique=true, nullable=false)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="numeroTransaccion",unique=true, nullable=false)
 	private long numeroTransaccion;
 	
 	@Column(name="estacion")

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
 
-public class MockAlarma {
+public class MockAlarma implements ImockCRUD {
 	
 	@Autowired
 	private AlarmaRepository repository;
@@ -17,6 +17,7 @@ public class MockAlarma {
 		 this.repository=repository;
 	 }
 	 
+	 @Override
 	 //Agregar Clave foranea que correspondera a la clave de la estación en toda las alarmas.
 	 public void rellenar(){
 		 repository.save(new Alarma("The command is not sent successfully",-1,false));

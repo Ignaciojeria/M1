@@ -3,6 +3,7 @@ package com.example.QuartsTasksMetro.Tasks;
 import java.io.UnsupportedEncodingException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.quartz.Job;
@@ -30,7 +31,7 @@ public class TransaccionTask implements Job {
 	
 	private static byte[] arr = new byte[256];
 	private static HANDLE handle;
-	private static long id=0;
+	private static int id=0;
 	//pasar pullSdk Por Referencia.
 	//public TransaccionTask(){}
 
@@ -76,8 +77,15 @@ public class TransaccionTask implements Job {
 				System.out.println("Event type: " + part5);
 				System.out.println("Entry/Exit status: " + part6);
 				System.out.println(part7);
-				id++;
-				transaccionRepository.save(new Transaccion(null,id,"Ticketing",1,new Tarjeta(1,900,true,true,true)));
+				id++;	
+				try{
+					SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+					Date date = fmt.parse("2013-05-06");
+					transaccionRepository.save(new Transaccion(date,id,"Ticketing",1,new Tarjeta(1,900,true,true,true)));
+				}catch(Exception e){
+				}
+				
+				
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
