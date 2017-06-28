@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Entity.Tarjeta;
 import com.example.QuartsTasksMetro.Entity.Transaccion;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
@@ -29,7 +30,7 @@ public class TransaccionTask implements Job {
 	
 	private static byte[] arr = new byte[256];
 	private static HANDLE handle;
-	private static int id=0;
+	private static long id=0;
 	//pasar pullSdk Por Referencia.
 	//public TransaccionTask(){}
 
@@ -48,14 +49,14 @@ public class TransaccionTask implements Job {
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException { 
-		
-		System.out.println("tarea programada");
-		System.out.println(PullSdk.getPullSdk().GetRTLog(handle, arr, 256));
-		try {
-			System.out.println(new String (arr,"UTF-8").trim());
+		for (int i = 0; i <27 ; i++) {
+			
+		try { 
+			PullSdk.getPullSdk().GetRTLog(handle, arr, 256);
+			//System.out.println(new String (arr,"UTF-8").trim());
 			String string = new String(arr, "UTF-8");
-			System.out.println(string);
-			System.out.println(handle);
+			//System.out.println(string);
+			//System.out.println(handle);
 			String[] parts = string.split(",");
 			String part1 = parts[0]; // 004
 			String part2 = parts[1];
@@ -65,8 +66,8 @@ public class TransaccionTask implements Job {
 			String part6 = parts[5];
 			String part7 = parts[6];
 			//part7.replaceAll("\\s", "");
-			System.out.println(part7);
-			if (part7.trim().equals("200")) {
+			//System.out.println(part7);
+			if (part7.trim().equals("4")) {
 				System.out.println("Entro!");
 				System.out.println("TIME: " + part1);
 				System.out.println("ID: " + part2);
@@ -76,49 +77,14 @@ public class TransaccionTask implements Job {
 				System.out.println("Entry/Exit status: " + part6);
 				System.out.println(part7);
 				id++;
-				transaccionRepository.save(new Transaccion(null,id,900,1,"ticketing"));
+				transaccionRepository.save(new Transaccion(null,id,"Ticketing",1,new Tarjeta(1,900,true,true,true)));
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	/*
-		
+		}
 
-		try {
-			// System.out.println(new String (arr,"UTF-8"));
-			String string = new String(arr, "UTF-8");
-			String[] parts = string.split(",");
-			String part1 = parts[0]; // 004
-			String part2 = parts[1];
-			String part3 = parts[2];
-			String part4 = parts[3];
-			String part5 = parts[4];
-			String part6 = parts[5];
-			String part7 = parts[6];
-			part7.replaceAll("\\s", "");
-
-			if (((Number) NumberFormat.getInstance().parse(part7)).intValue() == 4) {
-				System.out.println("Entro!");
-				System.out.println("TIME: " + part1);
-				System.out.println("ID: " + part2);
-				System.out.println("Card No°: " + part3);
-				System.out.println("Door No°: " + part4);
-				System.out.println("Event type: " + part5);
-				System.out.println("Entry/Exit status: " + part6);
-				System.out.println(part7);
-				id++;
-				transaccionRepository.save(new Transaccion(null,id,900,1,"ticketing"));
-			}
-
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-
-			e1.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} **/
 	}
 	
 	

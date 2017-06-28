@@ -1,68 +1,63 @@
 package com.example.QuartsTasksMetro.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="Transaccion")
 public class Transaccion {
 	
-	@Column(name="fecha")
-	private Date fecha;
+	@Column(name="fechaTransaccion", unique=true, nullable=false)
+	private Date fechaTransaccion;
+	
 	@Id
-	@Column(name="id")
-	private long id;
-	@Column(name="numeroTarjeta")
-	private long numeroTarjeta;
-	@Column(name="puerta")
-	private long puerta;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="numeroTransaccion", unique=true, nullable=false)
+	private long numeroTransaccion;
+	
 	@Column(name="estacion")
 	private String estacion;
 	
-	public Transaccion() {}
+	@Column(name="puerta")
+	private int puerta;
+	
+	@ManyToOne
+	@JoinColumn(name="FK_codigoTarjeta")
+	private Tarjeta tarjeta;
+	
+	public Transaccion(){}
 
-	public Transaccion(Date fecha, long id, long numeroTarjeta, long puerta, String estacion) {
-		this.fecha = fecha;
-		this.id = id;
-		this.numeroTarjeta = numeroTarjeta;
-		this.puerta = puerta;
+	public Transaccion(Date fechaTransaccion, long numeroTransaccion, String estacion, int puerta, Tarjeta tarjeta) {
+		this.fechaTransaccion = fechaTransaccion;
+		this.numeroTransaccion = numeroTransaccion;
 		this.estacion = estacion;
-	}
-
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getNumeroTarjeta() {
-		return numeroTarjeta;
-	}
-
-	public void setNumeroTarjeta(long numeroTarjeta) {
-		this.numeroTarjeta = numeroTarjeta;
-	}
-
-	public long getPuerta() {
-		return puerta;
-	}
-
-	public void setPuerta(long puerta) {
 		this.puerta = puerta;
+		this.tarjeta = tarjeta;
+	}
+
+	public Date getFechaTransaccion() {
+		return fechaTransaccion;
+	}
+
+	public void setFechaTransaccion(Date fechaTransaccion) {
+		this.fechaTransaccion = fechaTransaccion;
+	}
+
+	public long getNumeroTransaccion() {
+		return numeroTransaccion;
+	}
+
+	public void setNumeroTransaccion(long numeroTransaccion) {
+		this.numeroTransaccion = numeroTransaccion;
 	}
 
 	public String getEstacion() {
@@ -71,6 +66,22 @@ public class Transaccion {
 
 	public void setEstacion(String estacion) {
 		this.estacion = estacion;
+	}
+
+	public int getPuerta() {
+		return puerta;
+	}
+
+	public void setPuerta(int puerta) {
+		this.puerta = puerta;
+	}
+
+	public Tarjeta getTarjeta() {
+		return tarjeta;
+	}
+
+	public void setTarjeta(Tarjeta tarjeta) {
+		this.tarjeta = tarjeta;
 	}
 
 }

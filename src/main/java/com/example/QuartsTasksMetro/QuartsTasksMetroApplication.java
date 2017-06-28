@@ -44,12 +44,16 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 
 		
 		TransaccionTask transaccionTask= new TransaccionTask();
-		//Connection.connectToticketing();
+		Connection.connectToticketing();
 		transaccionTask.setHANDLE(Connection.getTicketingConnection());
 		transaccionTask.setTransaccionRepository(transaccionRepository);
 		transaccionTask.buildTransaccionTask();
 	
-		 
+		
+		DeviceCRUD crud= new DeviceCRUD();
+		crud.read(Connection.getTicketingConnection());
+		
+		
 	/*	Connection.connectToticketing();
 		
 		DeviceCRUD crud= new DeviceCRUD();
