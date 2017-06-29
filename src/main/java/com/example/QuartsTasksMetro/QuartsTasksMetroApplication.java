@@ -62,23 +62,33 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
 		
-		TransaccionTask transaccionTask= new TransaccionTask();
+		TransaccionTask ticketingTransaccionTask= new TransaccionTask();
 		Connection.connectToticketing();
-		transaccionTask.setHANDLE(Connection.getTicketingConnection());
-		transaccionTask.setTransaccionRepository(transaccionRepository,tarjetaRepository);
-		transaccionTask.buildTransaccionTask();
+		ticketingTransaccionTask.setHANDLE(Connection.getTicketingConnection());
+		ticketingTransaccionTask.setTransaccionRepository(transaccionRepository);
+		ticketingTransaccionTask.setTarjetaRepository(tarjetaRepository);
+		ticketingTransaccionTask.buildTransaccionTask();
 	
 		
-		DeviceCRUD crud= new DeviceCRUD();
-		crud.read(Connection.getTicketingConnection());
-		crud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
 		
+		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
+		deviceCrud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
+		deviceCrud.readUsers(Connection.getTicketingConnection());
+		deviceCrud.readUsersAuths(Connection.getTicketingConnection());
+		
+		//borra todo los registros de la tarjeta.
+		//deviceCrud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
+	
+		deviceCrud.SyncDeviceDataWhitTarjetaDatabaseData(Connection.getTicketingConnection());
+		
+		//PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "user", "Pin=6\tCardNo=3568056030\tPassword=\tStartTime=20170625\tEndTime=20180626", "");
+		//PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=6\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15", "");
 	/*	Connection.connectToticketing();
 		
 		DeviceCRUD crud= new DeviceCRUD();
 		crud.read(Connection.getTicketingConnection());
 		
-		PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "user", "Pin=6\tCardNo=3557523742\tPassword=\tStartTime=20170625\tEndTime=20170626", "");
+		PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "user", "Pin=6\tCardNo=3568056030\tPassword=\tStartTime=20170625\tEndTime=20180626", "");
 		PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=6\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15", "");
 		
 	      */

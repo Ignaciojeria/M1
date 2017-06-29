@@ -48,8 +48,11 @@ public class TransaccionTask implements Job {
 
 
 
-	public void setTransaccionRepository(TransaccionRepository transaccion, TarjetaRepository tarjeta) {
-		transaccionRepository = transaccion;
+	public void setTransaccionRepository(TransaccionRepository transaccion) {
+		transaccionRepository = transaccion;	
+	}
+	
+	public void setTarjetaRepository(TarjetaRepository tarjeta){
 		tarjetaRepository=tarjeta;
 	}
 
@@ -129,7 +132,8 @@ public class TransaccionTask implements Job {
 		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
 		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
 		setHANDLE(handle);
-		setTransaccionRepository(transaccionRepository,tarjetaRepository);
+		setTransaccionRepository(transaccionRepository);
+		setTarjetaRepository(tarjetaRepository);
 		schedulerFactory.start();
 	}
 	
