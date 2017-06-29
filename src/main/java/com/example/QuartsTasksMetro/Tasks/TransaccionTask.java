@@ -21,6 +21,7 @@ import com.example.QuartsTasksMetro.Device.PullSdk;
 import com.example.QuartsTasksMetro.Entity.Tarjeta;
 import com.example.QuartsTasksMetro.Entity.Transaccion;
 import com.example.QuartsTasksMetro.Entity.Usuario;
+import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
@@ -29,6 +30,9 @@ public class TransaccionTask implements Job {
 	
 	@Autowired
 	private static TransaccionRepository transaccionRepository;
+	
+	@Autowired 
+	private static TarjetaRepository tarjetaRepository;
 	
 	private static byte[] arr = new byte[256];
 	private static HANDLE handle;
@@ -44,13 +48,14 @@ public class TransaccionTask implements Job {
 
 
 
-	public void setTransaccionRepository(TransaccionRepository transaccion) {
+	public void setTransaccionRepository(TransaccionRepository transaccion, TarjetaRepository tarjeta) {
 		transaccionRepository = transaccion;
+		tarjetaRepository=tarjeta;
 	}
 
 
 	@Override
-	public void execute(JobExecutionContext arg0) throws JobExecutionException { 
+	public void execute(JobExecutionContext arg0) throws JobExecutionException, NumberFormatException { 
 		for (int i = 0; i <27 ; i++) {
 			
 		try { 
@@ -60,16 +65,26 @@ public class TransaccionTask implements Job {
 			//System.out.println(string);
 			//System.out.println(handle);
 			String[] parts = string.split(",");
-			String part1 = parts[0]; // 004
-			String part2 = parts[1];
-			String part3 = parts[2];
-			String part4 = parts[3];
-			String part5 = parts[4];
-			String part6 = parts[5];
-			String part7 = parts[6];
+			String part1 = parts[0].trim(); // 004
+			String part2 = parts[1].trim();
+			String part3 = parts[2].trim();
+			String part4 = parts[3].trim();
+			String part5 = parts[4].trim();
+			String part6 = parts[5].trim();
+			String part7 = parts[6].trim();
 			//part7.replaceAll("\\s", "");
 			//System.out.println(part7);
 			if (part7.trim().equals("4")) {
+				Date fechaTransaccion=null;
+				long numeroTarjeta=Long.parseLong(part3);
+				int numeroPuerta=Integer.parseInt(part4);
+				try{
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					fechaTransaccion= formato.parse(part1);
+				}catch(Exception e){
+					System.out.println("Error Al pasar fecha");
+				}
+
 				System.out.println("Entro!");
 				System.out.println("TIME: " + part1);
 				System.out.println("ID: " + part2);
@@ -78,13 +93,17 @@ public class TransaccionTask implements Job {
 				System.out.println("Event type: " + part5);
 				System.out.println("Entry/Exit status: " + part6);
 				System.out.println(part7);
+				id=transaccionRepository.findLastTransaction();
 				id++;	
-				try{
-					SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-					Date date = fmt.parse("2013-05-06");
-					transaccionRepository.save(new Transaccion(date,id,"Ticketing",1,new Tarjeta(1,900,true,date,date,new Usuario("Ignacio",23,18666636,4))));
-				}catch(Exception e){
-				}
+				
+					//transaccionRepository.save(new Transaccion(fechaTransaccion,id,Connection.getStationName(handle),numeroPuerta,new Tarjeta(1,900,true,date,date,new Usuario("Ignacio",23,18666636,4))));
+					if(tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)==null){
+						System.out.println("Tarjeta no existe.");
+						return;
+					}
+					
+					transaccionRepository.save(new Transaccion(fechaTransaccion,id,Connection.getStationName(handle),numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
+
 				
 				
 			}
@@ -110,7 +129,7 @@ public class TransaccionTask implements Job {
 		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
 		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
 		setHANDLE(handle);
-		setTransaccionRepository(transaccionRepository);
+		setTransaccionRepository(transaccionRepository,tarjetaRepository);
 		schedulerFactory.start();
 	}
 	

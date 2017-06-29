@@ -14,6 +14,7 @@ import com.example.QuartsTasksMetro.Device.PullSdk;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
 import com.example.QuartsTasksMetro.Mock.MockTarjeta;
+import com.example.QuartsTasksMetro.Mock.MockTransaccion;
 import com.example.QuartsTasksMetro.Mock.MockUsuario;
 import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
@@ -58,16 +59,19 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockUsuario mockUsuario= new MockUsuario(usuarioRepository);
 		mockUsuario.rellenar();
 		
+		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
+		mockTransaccion.rellenar();
+		
 		TransaccionTask transaccionTask= new TransaccionTask();
 		Connection.connectToticketing();
 		transaccionTask.setHANDLE(Connection.getTicketingConnection());
-		transaccionTask.setTransaccionRepository(transaccionRepository);
+		transaccionTask.setTransaccionRepository(transaccionRepository,tarjetaRepository);
 		transaccionTask.buildTransaccionTask();
 	
 		
 		DeviceCRUD crud= new DeviceCRUD();
 		crud.read(Connection.getTicketingConnection());
-		
+		crud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
 		
 	/*	Connection.connectToticketing();
 		

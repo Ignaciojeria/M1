@@ -15,6 +15,10 @@ public class DeviceCRUD {
 	System.out.println(new String(arr,"UTF8").trim());
 	}
 	
+	public void deleteAllRegistersForDevice(HANDLE handle){
+		PullSdk.getPullSdk().DeleteDeviceData(handle, "user", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(handle, "userauthorize", "*", "");
+	}
 	
 	
 }

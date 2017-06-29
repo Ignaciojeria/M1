@@ -33,6 +33,11 @@ public class PullSdk {
 		 int GetDeviceData(HANDLE handle, byte[] Buffer, int bufferSize, String tableName,String fieldNames,String Filter, String Options);
 		 
 		 int SetDeviceData(HANDLE handle,String tableName, String data, String options);
+		 
+		 int DeleteDeviceData(HANDLE handle, String TableName,String Data,String Options);
+		 
+		 
+		 
 	}
 	
 	//Crear 1 singleton por estación

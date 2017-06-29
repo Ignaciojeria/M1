@@ -32,7 +32,7 @@ public class Transaccion {
 	private int puerta;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="FK_codigoTarjeta")
+	@JoinColumn(name="FK_codigoTarjeta", nullable=false)
 	private Tarjeta tarjeta;
 	
 	public Transaccion(){}
