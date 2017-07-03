@@ -89,13 +89,9 @@ public class Connection {
 		}
 	}
 
-	public static String getStationName(HANDLE handle){
+	public  String getStationName(){
 		
-		String estacion= "";
-		if(handle==Connection.getTicketingConnection()){
-			estacion="Ticketing";
-		}
-		return estacion;
+		return stationName;
 	}
 
 
