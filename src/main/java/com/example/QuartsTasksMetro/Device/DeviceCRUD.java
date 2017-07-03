@@ -1,6 +1,8 @@
 package com.example.QuartsTasksMetro.Device;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,17 +44,25 @@ public class DeviceCRUD {
 	}
 	
 	public void SyncDeviceDataWhitTarjetaDatabaseData(HANDLE handle){
-		findAllTarjetasAndBuildUserTableForDevice();
+		PullSdk.getPullSdk().SetDeviceData(handle, "user",findAllTarjetasAndBuildUserTableForDevice(), "");
 	}
 	
-	private void findAllTarjetasAndBuildUserTableForDevice(){
+	private String findAllTarjetasAndBuildUserTableForDevice(){
 		List<Tarjeta> tarjetas=	tarjetaRepository.findAll();
 		StringBuilder usersBuilder = new StringBuilder();
-		String example="Pin=6\tCardNo=3557523742\tPassword=\tStartTime=20170625\tEndTime=20170626\t";
+	//	String example="Pin=6\tCardNo=3557523742\tPassword=\tStartTime=20170625\tEndTime=20170626\t";
 		for (int i = 0; i < tarjetas.size(); i++) {
 			
-			//System.out.println(tarjetas.get(i).getId()+","+tarjetas.get(i).getCodigoTarjeta()+","+tarjetas.get(i).getUsuario().getNombre());
+			String localString="Pin="+tarjetas.get(i).getId()+"\t"+
+							   "CardNo="+tarjetas.get(i).getCodigoTarjeta()+"\t"+
+							   "Password=\t"+
+							   "StartTime="+new SimpleDateFormat("yyyyMMdd").format(tarjetas.get(i).getFechaInicial())+"\t"+
+							   "EndTime="+new SimpleDateFormat("yyyyMMdd").format(tarjetas.get(i).getFechaExpiracion())+"\r\n";
+			usersBuilder.append(localString);
+	
+			
 			}
+		return usersBuilder.toString();
 	}
 	
 }

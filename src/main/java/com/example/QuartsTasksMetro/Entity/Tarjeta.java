@@ -1,5 +1,6 @@
 package com.example.QuartsTasksMetro.Entity;
 
+
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="Tarjeta")
@@ -28,8 +30,10 @@ public class Tarjeta {
 	@Column(name="activa", nullable=false)
 	private boolean activa;
 	
+	
 	@Column(name="fechaInicial", nullable=false)
 	private Date fechaInicial;
+	
 	
 	@Column(name="fechaExpiracion", nullable=false)
 	private Date fechaExpiracion;
@@ -73,17 +77,11 @@ public class Tarjeta {
 		this.activa = activa;
 	}
 
-	public Date isFechaInicial() {
-		return fechaInicial;
-	}
 
 	public void setFechaInicial(Date fechaInicial) {
 		this.fechaInicial = fechaInicial;
 	}
 
-	public Date isFechaExpiracion() {
-		return fechaExpiracion;
-	}
 
 	public void setFechaExpiracion(Date fechaExpiracion) {
 		this.fechaExpiracion = fechaExpiracion;

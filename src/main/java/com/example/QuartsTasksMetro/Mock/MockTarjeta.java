@@ -25,7 +25,7 @@ public class MockTarjeta implements ImockCRUD {
 		try{
 			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 			Date initDate = fmt.parse("2013-05-06");
-			Date expirationDate =fmt.parse("29-07-2018");
+			Date expirationDate =fmt.parse("2018-07-29");
 			
 			tarjetaRepository.save(new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio",23,18666636,4)));
 			tarjetaRepository.save(new Tarjeta(2,3557523758L,true,initDate,expirationDate,new Usuario("Ignacio",23,18666636,4)));

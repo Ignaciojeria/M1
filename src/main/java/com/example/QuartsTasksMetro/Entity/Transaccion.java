@@ -31,7 +31,7 @@ public class Transaccion {
 	@Column(name="puerta")
 	private int puerta;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="FK_codigoTarjeta", nullable=false)
 	private Tarjeta tarjeta;
 	
