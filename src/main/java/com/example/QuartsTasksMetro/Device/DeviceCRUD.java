@@ -43,8 +43,9 @@ public class DeviceCRUD {
 		PullSdk.getPullSdk().DeleteDeviceData(handle, "userauthorize", "*", "");
 	}
 	
-	public void SyncDeviceDataWhitTarjetaDatabaseData(HANDLE handle){
+	public void SyncDeviceDataWhitDatabaseData(HANDLE handle){
 		PullSdk.getPullSdk().SetDeviceData(handle, "user",findAllTarjetasAndBuildUserTableForDevice(), "");
+		PullSdk.getPullSdk().SetDeviceData(handle, "userauthorize", FindTarjetasAndBuildUserauthorizeTableForDevice(), "");
 	}
 	
 	private String findAllTarjetasAndBuildUserTableForDevice(){
@@ -59,10 +60,20 @@ public class DeviceCRUD {
 							   "StartTime="+new SimpleDateFormat("yyyyMMdd").format(tarjetas.get(i).getFechaInicial())+"\t"+
 							   "EndTime="+new SimpleDateFormat("yyyyMMdd").format(tarjetas.get(i).getFechaExpiracion())+"\r\n";
 			usersBuilder.append(localString);
-	
-			
 			}
 		return usersBuilder.toString();
 	}
-	
+	private String FindTarjetasAndBuildUserauthorizeTableForDevice(){
+		List<Tarjeta> tarjetas=	tarjetaRepository.findAll();
+		StringBuilder usersBuilder = new StringBuilder();
+	//	String example="Pin=1\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15\r\n";
+		for (int i = 0; i < tarjetas.size(); i++) {
+			
+			String localString="Pin="+tarjetas.get(i).getId()+"\t"+
+							   "AuthorizeTimezoneId=1\t"+
+							   "AuthorizeDoorId=15\r\n";
+			usersBuilder.append(localString);
+			}
+		return usersBuilder.toString();
+	}
 }

@@ -79,13 +79,13 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		//borra todo los registros de la tarjeta.
 		deviceCrud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
 	
-		deviceCrud.SyncDeviceDataWhitTarjetaDatabaseData(Connection.getTicketingConnection());
+		deviceCrud.SyncDeviceDataWhitDatabaseData(Connection.getTicketingConnection());
 		
 		//String us="Pin=1\tCardNo=3568056030\tPassword=\tStartTime=20170625\tEndTime=20180626\r\n";
 		//String us2=deviceCrud.findAllTarjetasAndBuildUserTableForDevice();
 		
 		
-		PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=1\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15\r\n", "");
+		//PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=1\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15\r\n", "");
 		//System.out.println(deviceCrud.findAllTarjetasAndBuildUserTableForDevice());
 		deviceCrud.readUsers(Connection.getTicketingConnection());
 		deviceCrud.readUsersAuths(Connection.getTicketingConnection());
