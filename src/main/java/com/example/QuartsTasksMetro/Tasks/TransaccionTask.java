@@ -28,30 +28,35 @@ import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 public class TransaccionTask implements Job {
 	
-	@Autowired
-	private static TransaccionRepository transaccionRepository;
 	
-	@Autowired 
-	private static TarjetaRepository tarjetaRepository;
+	public static  TransaccionRepository transaccionRepository;
 	
-	private static byte[] arr = new byte[256];
-	private static HANDLE handle;
-	private static int id=0;
+	
+	public static  TarjetaRepository tarjetaRepository;
+	
+	public static byte[] arr = new byte[256*50];
+	public static HANDLE handle[]= new HANDLE[2];
+	public static int id=0;
 	//pasar pullSdk Por Referencia.
 	//public TransaccionTask(){}
+	
+	public static TransaccionTask taskTicketing= new TransaccionTask();
 
-	public TransaccionTask(){
-		
+	public TransaccionTask(){}
+	
+	
+	public static TransaccionTask getTaskTicketing(TransaccionRepository transaccionRepository,TarjetaRepository tarjetaRepository){
+		taskTicketing.setTransaccionRepository(transaccionRepository);
+		taskTicketing.setTarjetaRepository(tarjetaRepository);
+		return taskTicketing;
 	}
 	
-	
-
-
-
+	@Autowired
 	public void setTransaccionRepository(TransaccionRepository transaccion) {
 		transaccionRepository = transaccion;	
 	}
 	
+	@Autowired 
 	public void setTarjetaRepository(TarjetaRepository tarjeta){
 		tarjetaRepository=tarjeta;
 	}
@@ -62,7 +67,7 @@ public class TransaccionTask implements Job {
 		for (int i = 0; i <27 ; i++) {
 			
 		try { 
-			PullSdk.getPullSdk().GetRTLog(handle, arr, 256);
+			PullSdk.getPullSdk().GetRTLog(handle[0], arr, 256);
 			//System.out.println(new String (arr,"UTF-8").trim());
 			String string = new String(arr, "UTF-8");
 			//System.out.println(string);
@@ -105,7 +110,7 @@ public class TransaccionTask implements Job {
 						return;
 					}
 					
-					transaccionRepository.save(new Transaccion(fechaTransaccion,id,Connection.getStationName(handle),numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
+					transaccionRepository.save(new Transaccion(fechaTransaccion,id,"ticketing",numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
 
 				
 				
@@ -131,14 +136,56 @@ public class TransaccionTask implements Job {
 		simpletrigger.setRepeatCount(simpletrigger.REPEAT_INDEFINITELY);
 		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
 		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
-		setHANDLE(handle);
+		setHANDLE(handle[0]);
 		setTransaccionRepository(transaccionRepository);
 		setTarjetaRepository(tarjetaRepository);
 		schedulerFactory.start();
 	}
 	
 	public void setHANDLE(HANDLE handlex){
-		handle=handlex;
+		handle[0]=handlex;
 	}
+
+
+	public byte[] getArr() {
+		return arr;
+	}
+
+
+	public void setArr(byte[] arr) {
+		this.arr = arr;
+	}
+
+
+	public HANDLE getHandle() {
+		return handle[0];
+	}
+
+
+	public void setHandle(HANDLE handlex) {
+		handle[0] = handlex;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public TransaccionRepository getTransaccionRepository() {
+		return transaccionRepository;
+	}
+
+
+	public TarjetaRepository getTarjetaRepository() {
+		return tarjetaRepository;
+	}
+	
+	
 
 }

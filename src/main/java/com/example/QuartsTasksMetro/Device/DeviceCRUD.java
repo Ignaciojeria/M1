@@ -29,6 +29,7 @@ public class DeviceCRUD {
 	System.out.println(new String(arr,"UTF8").trim());
 	}
 	
+	
 	public void readUsers(HANDLE handle) throws UnsupportedEncodingException{
 		int buff=(4*1024*1024);
 		byte[] arr= new byte[buff];
@@ -57,6 +58,7 @@ public class DeviceCRUD {
 			String localString="Pin="+tarjetas.get(i).getId()+"\t"+
 							   "CardNo="+tarjetas.get(i).getCodigoTarjeta()+"\t"+
 							   "Password=\t"+
+							   "SuperAuthorize=1\t"+
 							   "StartTime="+new SimpleDateFormat("yyyyMMdd").format(tarjetas.get(i).getFechaInicial())+"\t"+
 							   "EndTime="+new SimpleDateFormat("yyyyMMdd").format(tarjetas.get(i).getFechaExpiracion())+"\r\n";
 			usersBuilder.append(localString);

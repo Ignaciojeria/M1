@@ -25,6 +25,8 @@ public class PullSdk {
 		 int GetRTLog(HANDLE handle,byte[] buffer,int bufferSize);
 
 		 int PullLastError();
+		 
+		 int SearchDevice(String CommType,String Address, byte[]Buffer);
 
 		 int ModifyIPAddress(String commtype,String address, String buffer);
 

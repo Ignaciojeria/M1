@@ -16,11 +16,10 @@ public class Connection {
 	private  String passwd="";
 	private  int connectNumber=0;
 	private  HANDLE connectHandle=null;
-	//la idea sería crear una clase Station que tenga como atributos el estado de la estación, estado del monitoreo....
-	private  String stationName; //luego elimina este atributo y crea la clase estación
-	//private PullSdk pullsdk= new PullSdk();
+	private  String stationName=""; 
+
 	
-	private Connection(String protocol, String ipaddress,String port, String timeout,String stationName) {
+	protected Connection(String protocol, String ipaddress,String port, String timeout,String stationName) {
 		this.protocol = protocol;
 		this.ipaddress = ipaddress;
 		this.port=port;
@@ -29,8 +28,18 @@ public class Connection {
 		}
 	private static Connection ticketingConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");
 	
+	private static Connection testConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");
+	
 	//puedes pasar parametros al retorno del singleton desde este método para que la estación no quede hardcodeada y pueda
 	//ser administrable
+	
+	public static void connectToTestConnection(){
+		 testConnection.connect();
+	}
+	
+	public static HANDLE getTestConnection(){
+		return testConnection.connectHandle;
+	}
 	
 	public static void connectToticketing(){
 		ticketingConnection.connect();

@@ -62,7 +62,7 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
 		
-		TransaccionTask ticketingTransaccionTask= new TransaccionTask();
+		TransaccionTask ticketingTransaccionTask= TransaccionTask.getTaskTicketing(transaccionRepository,tarjetaRepository);
 		Connection.connectToticketing();
 		ticketingTransaccionTask.setHANDLE(Connection.getTicketingConnection());
 		ticketingTransaccionTask.setTransaccionRepository(transaccionRepository);
@@ -89,7 +89,9 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		//System.out.println(deviceCrud.findAllTarjetasAndBuildUserTableForDevice());
 		deviceCrud.readUsers(Connection.getTicketingConnection());
 		deviceCrud.readUsersAuths(Connection.getTicketingConnection());
+		
 		/*	Connection.connectToticketing();
+		 
 		
 		DeviceCRUD crud= new DeviceCRUD();
 		crud.read(Connection.getTicketingConnection());
@@ -98,8 +100,9 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=6\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15", "");
 		
 	      */
-		
-	      } 
+
+	      
+	} 
 	}
 
 
