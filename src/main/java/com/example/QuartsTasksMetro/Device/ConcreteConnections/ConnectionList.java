@@ -6,7 +6,7 @@ import com.example.QuartsTasksMetro.Device.Connection;
 
 public class ConnectionList {
 	
-	private Connection[] connections= new Connection[10];
+	private Connection[] connections= new Connection[2];
 	
 	private static ConnectionList connectionList = new ConnectionList();
 	

@@ -29,40 +29,34 @@ import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 public class TransaccionTask implements Job {
 	
+	@Autowired
+	public static TransaccionRepository transaccionRepository;
 	
-	public static  TransaccionRepository transaccionRepository;
-	
-	
-	public static  TarjetaRepository tarjetaRepository;
+	@Autowired
+	public static TarjetaRepository tarjetaRepository;
 	
 	//public static byte[] arr = new byte[256];
 	//public static HANDLE handle[]= new HANDLE[2];
 	public static int id;
+
+	
 	//public static int nextHandle=0;
 	//pasar pullSdk Por Referencia.
 	//public TransaccionTask(){}
 	
 	//Singleton de la clase TransaccionTask
-	public static TransaccionTask task= new TransaccionTask();
 
 	public TransaccionTask(){}
 	
 	//Retorno del Singleton
 	//singleton al que se le pasan los setters de la inyección de dependencias de de los repositorios de las tarjetas y transacciones.
-	public static TransaccionTask getTransaccionTask(TransaccionRepository transaccionRepository,TarjetaRepository tarjetaRepository){
-		task.setTransaccionRepository(transaccionRepository);
-		task.setTarjetaRepository(tarjetaRepository);
-		return task;
+	public static void setRepositoriesTransaccionTasks(TransaccionRepository transaccionRepositoryx,TarjetaRepository tarjetaRepositoryx){
+		transaccionRepository=transaccionRepositoryx;
+		tarjetaRepository=tarjetaRepositoryx;
 	}
 	
-	@Autowired
-	public void setTransaccionRepository(TransaccionRepository transaccion) {
-		transaccionRepository = transaccion;	
-	}
-	
-	@Autowired 
-	public void setTarjetaRepository(TarjetaRepository tarjeta){
-		tarjetaRepository=tarjeta;
+	public static TransaccionTask getTransaccionTask(){
+		return new TransaccionTask();
 	}
 
 
@@ -76,17 +70,50 @@ public class TransaccionTask implements Job {
 		//el nextHandle estatico que creaste por que esto es una tarea programada que se llamará cada cierto
 		//tiempo y lo qué tú quieres hacer es llamar diferentes tareas programadas y que esas tareas valga la redundancia
 		//se ejecuten referenciando a las diferentes conexiones de las diferentes estaciones.
+		transaccionTask();
+	}
+	
+	//Llamar a este método hace referencia a que será una tarea programada con la instancia de conexión que le
+	//pasemos por parametro
+	public void buildTransaccionTask() throws SchedulerException {
+	try{
+		JobDetail jobdetail= new JobDetail();
+		jobdetail.setName("TransaccionTaskDetail");
+		jobdetail.setJobClass(TransaccionTask.class);
+		
+		SimpleTrigger simpletrigger = new SimpleTrigger();
+		simpletrigger.setName("Trigger");
+		simpletrigger.setStartTime(new Date (System.currentTimeMillis()));
+		simpletrigger.setRepeatInterval(10000);
+		simpletrigger.setRepeatCount(simpletrigger.REPEAT_INDEFINITELY);
+		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
+		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
+		
+		
+		schedulerFactory.start();
+		
+		
+	}catch(Exception e){
+		System.out.println("xd");
+	}
+	}
+	
+	private void transaccionTask(){
+		
+		for (int index = 0; index < ConnectionList.getInstance().getConnections().length; index++) {
+			
+
 		for (int i = 0; i <27 ; i++) {
-			byte[] arr= ConnectionList.getInstance().getConnections()[0].getArr();
-			HANDLE handle=ConnectionList.getInstance().getConnections()[0].getConnectHandle();
+			byte[] arr= ConnectionList.getInstance().getConnections()[index].getArr();
+			HANDLE handle=ConnectionList.getInstance().getConnections()[index].getConnectHandle();
 		try { 
 			
 			PullSdk.getPullSdk().GetRTLog(handle, arr, 256);
 			//System.out.println(new String (arr,"UTF-8").trim());
 			
-			if(arr[0]<=0){
-				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionList.getInstance().getConnections()[0].getStationName());
-				ConnectionList.getInstance().getConnections()[0].connect();
+			if(arr[index]<=0){
+				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionList.getInstance().getConnections()[1].getStationName());
+				//ConnectionList.getInstance().getConnections()[index].connect();
 				return;
 			}
 			
@@ -141,33 +168,7 @@ public class TransaccionTask implements Job {
 			e.printStackTrace();
 		}
 		}
-
-	}
-	
-	//Llamar a este método hace referencia a que será una tarea programada con la instancia de conexión que le
-	//pasemos por parametro
-	public void buildTransaccionTask(HANDLE stationhandle) throws SchedulerException {
-	try{
-		JobDetail jobdetail= new JobDetail();
-		jobdetail.setName("TransaccionTaskDetail");
-		jobdetail.setJobClass(TransaccionTask.class);
-		
-		SimpleTrigger simpletrigger = new SimpleTrigger();
-		simpletrigger.setName("Trigger");
-		simpletrigger.setStartTime(new Date (System.currentTimeMillis()));
-		simpletrigger.setRepeatInterval(10000);
-		simpletrigger.setRepeatCount(simpletrigger.REPEAT_INDEFINITELY);
-		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
-		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
-		
-		setTransaccionRepository(transaccionRepository);
-		setTarjetaRepository(tarjetaRepository);
-		schedulerFactory.start();
-		
-		
-	}catch(Exception e){
-		System.out.println("xd");
-	}
+		}
 	}
 	
 //	private void setNextHANDLE(HANDLE handlex){
@@ -198,6 +199,8 @@ public class TransaccionTask implements Job {
 	public TarjetaRepository getTarjetaRepository() {
 		return tarjetaRepository;
 	}
+	
+
 	
 	
 

@@ -68,8 +68,6 @@ public abstract class Connection{
 	//Tarea Inicial de conectarse con la estación que se realiza de forma recursiva para cada estación hasta lograrse.
 	public void connect(){
 		if(this.connectNumber!=0){
-			this.connectHandle=null;
-			this.connectNumber=0;
 			System.out.println("Ya existe una conexión con la estación de: "+stationName);
 			return;
 		}
@@ -118,6 +116,11 @@ public abstract class Connection{
 
 	public byte[] getArr() {
 		return arr;
+	}
+	
+	private void reestablecer(){
+		this.connectHandle=null;
+		this.connectNumber=0;
 	}
 
 	

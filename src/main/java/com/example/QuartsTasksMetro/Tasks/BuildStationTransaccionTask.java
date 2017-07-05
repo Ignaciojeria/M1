@@ -28,14 +28,42 @@ public class BuildStationTransaccionTask {
 	 
 	public void buildTasks() throws SchedulerException{
 		//Considerala cómo una transaccion génerica (debes hacer refactoring del método getTaskTicketing).
-		TransaccionTask transaccionTask= TransaccionTask.getTransaccionTask(transaccionRepository,tarjetaRepository);
-		transaccionTask.setTransaccionRepository(transaccionRepository);
-		transaccionTask.setTarjetaRepository(tarjetaRepository);
+		TransaccionTask.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
 		
-		TicketingConnection.getInstance().connect(); 
-		//En este punto se arma la tarea programada de monitorización de transacciones de estaciones de metro y se le pasa
-		//por parametro la instancia de cada una de las conexiones de las estaciones.
-		transaccionTask.buildTransaccionTask(TicketingConnection.getInstance().getConnectHandle());
+		TicketingConnection.getInstance().connect();
 		TestConnection.getInstance().connect();
+		
+		TransaccionTask.getTransaccionTask().buildTransaccionTask();
+		
+		/*
+		TestConnection.getInstance().connect();
+		TestTask.getTransaccionTask().buildTransaccionTask(TestConnection.getInstance().getConnectHandle(),1);
+		*/
+		
+		/*
+		TransaccionTask transaccionTask0=TransaccionTask.getTransaccionTask();
+		transaccionTask0.buildTransaccionTask(TicketingConnection.getInstance().getConnectHandle(), 0);
+		
+		TestConnection.getInstance().connect();
+		transaccionTask0.buildTransaccionTask(TestConnection.getInstance().getConnectHandle(),1);
+		
+		TransaccionTask transaccionTask1=TransaccionTask.getTransaccionTask();
+		*/
+		
+
+		//TicketingConnection.getInstance().connect();
+		//transaccionTask0.buildTransaccionTask(TicketingConnection.getInstance().getConnectHandle(),0);
+		
+		//En este punto se arma la tarea programada de monitorización de transacciones de estaciones de metro y se le pasa
+		//por parametro la instancia de cada una de las conexiones de las estaciones. , IMPORTANTE!! int index
+		
+		
+	//	TestConnection.getInstance().connect();
+		
+		
+	//	TransaccionTask transaccionTask1= TransaccionTask.getTransaccionTask1();
+		
+		
+	//	transaccionTask1.buildTransaccionTask(TestConnection.getInstance().getConnectHandle(),1);
 	}
 }
