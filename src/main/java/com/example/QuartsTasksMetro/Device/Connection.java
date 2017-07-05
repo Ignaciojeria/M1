@@ -1,7 +1,7 @@
 package com.example.QuartsTasksMetro.Device;
 
 import com.example.QuartsTasksMetro.Exception.AlarmMessageControl;
-
+import com.example.QuartsTasksMetro.Tasks.TransaccionTask;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
@@ -17,6 +17,7 @@ public class Connection {
 	private  int connectNumber=0;
 	private  HANDLE connectHandle=null;
 	private  String stationName=""; 
+	//public static int nextHandle=0;
 
 	
 	protected Connection(String protocol, String ipaddress,String port, String timeout,String stationName) {
@@ -26,10 +27,11 @@ public class Connection {
 		this.timeout = timeout;
 		this.stationName=stationName;
 		}
+	
 	private static Connection ticketingConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");
 	
 	private static Connection testConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");
-	
+
 	//puedes pasar parametros al retorno del singleton desde este método para que la estación no quede hardcodeada y pueda
 	//ser administrable
 	
@@ -73,6 +75,7 @@ public class Connection {
 				 +"timeout="+timeout+","
 				 +"passwd="+passwd));
 		System.out.println("Conectado a "+ stationName);
+		//nextHandle++;
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		//recursividad en caso de que no se establesca bien la conexión con la estación
@@ -104,7 +107,7 @@ public class Connection {
 	}
 
 
-	private HANDLE getConnectHandle() {
+	public HANDLE getConnectHandle() {
 		return connectHandle;
 	}
 	

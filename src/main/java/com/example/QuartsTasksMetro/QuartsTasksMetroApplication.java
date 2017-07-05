@@ -20,6 +20,7 @@ import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.example.QuartsTasksMetro.Repository.UsuarioRepository;
+import com.example.QuartsTasksMetro.Tasks.BuildStationTransaccionTask;
 import com.example.QuartsTasksMetro.Tasks.TransaccionTask;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
@@ -62,14 +63,8 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
 		
-		TransaccionTask ticketingTransaccionTask= TransaccionTask.getTaskTicketing(transaccionRepository,tarjetaRepository);
-		Connection.connectToticketing();
-		ticketingTransaccionTask.setHANDLE(Connection.getTicketingConnection());
-		ticketingTransaccionTask.setTransaccionRepository(transaccionRepository);
-		ticketingTransaccionTask.setTarjetaRepository(tarjetaRepository);
-		ticketingTransaccionTask.buildTransaccionTask();
-	
-		
+		BuildStationTransaccionTask buildTransaccionTask= new BuildStationTransaccionTask( transaccionRepository,tarjetaRepository);
+		buildTransaccionTask.buildTasks();
 		
 		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
 		deviceCrud.deleteAllRegistersForDevice(Connection.getTicketingConnection());

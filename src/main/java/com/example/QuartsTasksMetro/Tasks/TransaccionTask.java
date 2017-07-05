@@ -36,19 +36,22 @@ public class TransaccionTask implements Job {
 	
 	public static byte[] arr = new byte[256*50];
 	public static HANDLE handle[]= new HANDLE[2];
-	public static int id=0;
+	public static int id;
+	public static int nextHandle=0;
 	//pasar pullSdk Por Referencia.
 	//public TransaccionTask(){}
 	
-	public static TransaccionTask taskTicketing= new TransaccionTask();
+	//Singleton de la clase TransaccionTask
+	public static TransaccionTask task= new TransaccionTask();
 
-	public TransaccionTask(){}
+	private TransaccionTask(){}
 	
-	
-	public static TransaccionTask getTaskTicketing(TransaccionRepository transaccionRepository,TarjetaRepository tarjetaRepository){
-		taskTicketing.setTransaccionRepository(transaccionRepository);
-		taskTicketing.setTarjetaRepository(tarjetaRepository);
-		return taskTicketing;
+	//Retorno del Singleton
+	//singleton al que se le pasan los setters de la inyección de dependencias de de los repositorios de las tarjetas y transacciones.
+	public static TransaccionTask getTransaccionTask(TransaccionRepository transaccionRepository,TarjetaRepository tarjetaRepository){
+		task.setTransaccionRepository(transaccionRepository);
+		task.setTarjetaRepository(tarjetaRepository);
+		return task;
 	}
 	
 	@Autowired
@@ -64,8 +67,15 @@ public class TransaccionTask implements Job {
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException, NumberFormatException { 
-		for (int i = 0; i <27 ; i++) {
-			
+		//Considerar un blucle for anidado para recorrer los eventos de cada una de las estaciones.
+		//donde el indice del handle[0] en el GetRtLog deberá hacer referencia a todas las instancias de
+		//conexiones.   ------> NA QUE VER PO CULIAO XDXD
+		
+		//Lo anterior no tiene sentido por eso lo que debes hacer será pasarle al handle[O] del GertRTLog
+		//el nextHandle estatico que creaste por que esto es una tarea programada que se llamará cada cierto
+		//tiempo y lo qué tú quieres hacer es llamar diferentes tareas programadas y que esas tareas valga la redundancia
+		//se ejecuten referenciando a las diferentes conexiones de las diferentes estaciones.
+		for (int i = 0; i <27 ; i++) {	
 		try { 
 			PullSdk.getPullSdk().GetRTLog(handle[0], arr, 256);
 			//System.out.println(new String (arr,"UTF-8").trim());
@@ -123,8 +133,9 @@ public class TransaccionTask implements Job {
 
 	}
 	
-	
-	public void buildTransaccionTask() throws SchedulerException{
+	//Llamar a este método hace referencia a que será una tarea programada con la instancia de conexión que le
+	//pasemos por parametro
+	public void buildTransaccionTask(HANDLE stationhandle) throws SchedulerException{
 		JobDetail jobdetail= new JobDetail();
 		jobdetail.setName("TransaccionTaskDetail");
 		jobdetail.setJobClass(TransaccionTask.class);
@@ -136,14 +147,15 @@ public class TransaccionTask implements Job {
 		simpletrigger.setRepeatCount(simpletrigger.REPEAT_INDEFINITELY);
 		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
 		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
-		setHANDLE(handle[0]);
+		setNextHANDLE(stationhandle);
 		setTransaccionRepository(transaccionRepository);
 		setTarjetaRepository(tarjetaRepository);
 		schedulerFactory.start();
+		nextHandle++;
 	}
 	
-	public void setHANDLE(HANDLE handlex){
-		handle[0]=handlex;
+	private void setNextHANDLE(HANDLE handlex){
+		handle[nextHandle]=handlex;
 	}
 
 
@@ -161,10 +173,6 @@ public class TransaccionTask implements Job {
 		return handle[0];
 	}
 
-
-	public void setHandle(HANDLE handlex) {
-		handle[0] = handlex;
-	}
 
 
 	public int getId() {
