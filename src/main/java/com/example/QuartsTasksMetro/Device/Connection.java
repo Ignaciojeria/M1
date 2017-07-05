@@ -1,13 +1,12 @@
 package com.example.QuartsTasksMetro.Device;
 
 import com.example.QuartsTasksMetro.Exception.AlarmMessageControl;
-import com.example.QuartsTasksMetro.Tasks.TransaccionTask;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 
 
-public class Connection {
+public abstract class Connection{
 	private  int count=0;
 	private  String protocol="";
 	private  String ipaddress="";
@@ -18,6 +17,7 @@ public class Connection {
 	private  HANDLE connectHandle=null;
 	private  String stationName=""; 
 	//public static int nextHandle=0;
+	private byte[] arr= new byte[256];
 
 	
 	protected Connection(String protocol, String ipaddress,String port, String timeout,String stationName) {
@@ -28,6 +28,7 @@ public class Connection {
 		this.stationName=stationName;
 		}
 	
+	/*
 	private static Connection ticketingConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");
 	
 	private static Connection testConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");
@@ -50,6 +51,8 @@ public class Connection {
 	public static HANDLE getTicketingConnection(){
 		return ticketingConnection.connectHandle;
 		}
+		
+		*/
 
 	private void setConnectNumber(int connectNumber) throws AlarmMessageControl {
 		if (connectNumber!=0) {
@@ -63,8 +66,10 @@ public class Connection {
 	}
 
 	//Tarea Inicial de conectarse con la estación que se realiza de forma recursiva para cada estación hasta lograrse.
-	private void connect(){
+	public void connect(){
 		if(this.connectNumber!=0){
+			this.connectHandle=null;
+			this.connectNumber=0;
 			System.out.println("Ya existe una conexión con la estación de: "+stationName);
 			return;
 		}
@@ -110,5 +115,11 @@ public class Connection {
 	public HANDLE getConnectHandle() {
 		return connectHandle;
 	}
+
+	public byte[] getArr() {
+		return arr;
+	}
+
+	
 	
 }

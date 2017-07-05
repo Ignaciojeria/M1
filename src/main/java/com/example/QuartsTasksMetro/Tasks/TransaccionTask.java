@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionList;
 import com.example.QuartsTasksMetro.Entity.Tarjeta;
 import com.example.QuartsTasksMetro.Entity.Transaccion;
 import com.example.QuartsTasksMetro.Entity.Usuario;
@@ -34,17 +35,17 @@ public class TransaccionTask implements Job {
 	
 	public static  TarjetaRepository tarjetaRepository;
 	
-	public static byte[] arr = new byte[256*50];
-	public static HANDLE handle[]= new HANDLE[2];
+	//public static byte[] arr = new byte[256];
+	//public static HANDLE handle[]= new HANDLE[2];
 	public static int id;
-	public static int nextHandle=0;
+	//public static int nextHandle=0;
 	//pasar pullSdk Por Referencia.
 	//public TransaccionTask(){}
 	
 	//Singleton de la clase TransaccionTask
 	public static TransaccionTask task= new TransaccionTask();
 
-	private TransaccionTask(){}
+	public TransaccionTask(){}
 	
 	//Retorno del Singleton
 	//singleton al que se le pasan los setters de la inyección de dependencias de de los repositorios de las tarjetas y transacciones.
@@ -75,10 +76,20 @@ public class TransaccionTask implements Job {
 		//el nextHandle estatico que creaste por que esto es una tarea programada que se llamará cada cierto
 		//tiempo y lo qué tú quieres hacer es llamar diferentes tareas programadas y que esas tareas valga la redundancia
 		//se ejecuten referenciando a las diferentes conexiones de las diferentes estaciones.
-		for (int i = 0; i <27 ; i++) {	
+		for (int i = 0; i <27 ; i++) {
+			byte[] arr= ConnectionList.getInstance().getConnections()[0].getArr();
+			HANDLE handle=ConnectionList.getInstance().getConnections()[0].getConnectHandle();
 		try { 
-			PullSdk.getPullSdk().GetRTLog(handle[0], arr, 256);
+			
+			PullSdk.getPullSdk().GetRTLog(handle, arr, 256);
 			//System.out.println(new String (arr,"UTF-8").trim());
+			
+			if(arr[0]<=0){
+				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionList.getInstance().getConnections()[0].getStationName());
+				ConnectionList.getInstance().getConnections()[0].connect();
+				return;
+			}
+			
 			String string = new String(arr, "UTF-8");
 			//System.out.println(string);
 			//System.out.println(handle);
@@ -135,7 +146,8 @@ public class TransaccionTask implements Job {
 	
 	//Llamar a este método hace referencia a que será una tarea programada con la instancia de conexión que le
 	//pasemos por parametro
-	public void buildTransaccionTask(HANDLE stationhandle) throws SchedulerException{
+	public void buildTransaccionTask(HANDLE stationhandle) throws SchedulerException {
+	try{
 		JobDetail jobdetail= new JobDetail();
 		jobdetail.setName("TransaccionTaskDetail");
 		jobdetail.setJobClass(TransaccionTask.class);
@@ -147,31 +159,24 @@ public class TransaccionTask implements Job {
 		simpletrigger.setRepeatCount(simpletrigger.REPEAT_INDEFINITELY);
 		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
 		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
-		setNextHANDLE(stationhandle);
+		
 		setTransaccionRepository(transaccionRepository);
 		setTarjetaRepository(tarjetaRepository);
 		schedulerFactory.start();
-		nextHandle++;
+		
+		
+	}catch(Exception e){
+		System.out.println("xd");
+	}
 	}
 	
-	private void setNextHANDLE(HANDLE handlex){
-		handle[nextHandle]=handlex;
-	}
+//	private void setNextHANDLE(HANDLE handlex){
+//		handle[nextHandle]=handlex;
+//	}
 
 
-	public byte[] getArr() {
-		return arr;
-	}
 
 
-	public void setArr(byte[] arr) {
-		this.arr = arr;
-	}
-
-
-	public HANDLE getHandle() {
-		return handle[0];
-	}
 
 
 

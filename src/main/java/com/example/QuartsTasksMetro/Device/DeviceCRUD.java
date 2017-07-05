@@ -23,7 +23,7 @@ public class DeviceCRUD {
 	public void readUsersAuths(HANDLE handle) throws UnsupportedEncodingException{
 	int buff=(4*1024*1024);
 	byte[] arr= new byte[buff];
-	Connection.getTicketingConnection();	
+	//Connection.getTicketingConnection();	
 	System.out.println(PullSdk.getPullSdk().GetDeviceData(handle,
 			   arr, buff, "userauthorize", "*", "", ""));
 	System.out.println(new String(arr,"UTF8").trim());
@@ -33,7 +33,7 @@ public class DeviceCRUD {
 	public void readUsers(HANDLE handle) throws UnsupportedEncodingException{
 		int buff=(4*1024*1024);
 		byte[] arr= new byte[buff];
-		Connection.getTicketingConnection();	
+	//	Connection.getTicketingConnection();	
 		System.out.println(PullSdk.getPullSdk().GetDeviceData(handle,
 				   arr, buff, "user", "*", "", ""));
 		System.out.println(new String(arr,"UTF8").trim());

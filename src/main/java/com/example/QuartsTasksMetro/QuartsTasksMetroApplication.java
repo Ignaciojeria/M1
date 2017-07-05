@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.example.QuartsTasksMetro.Device.DeviceCRUD;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnection;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
 import com.example.QuartsTasksMetro.Mock.MockTarjeta;
@@ -67,14 +68,14 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		buildTransaccionTask.buildTasks();
 		
 		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
-		deviceCrud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
+	//deviceCrud.deleteAllRegistersForDevice(TicketingConnection.getInstance().getConnectHandle());
 	//	deviceCrud.readUsers(Connection.getTicketingConnection());
 	//	deviceCrud.readUsersAuths(Connection.getTicketingConnection());
 		
 		//borra todo los registros de la tarjeta.
-		deviceCrud.deleteAllRegistersForDevice(Connection.getTicketingConnection());
+		deviceCrud.deleteAllRegistersForDevice(TicketingConnection.getInstance().getConnectHandle());
 	
-		deviceCrud.SyncDeviceDataWhitDatabaseData(Connection.getTicketingConnection());
+		deviceCrud.SyncDeviceDataWhitDatabaseData(TicketingConnection.getInstance().getConnectHandle());
 		
 		//String us="Pin=1\tCardNo=3568056030\tPassword=\tStartTime=20170625\tEndTime=20180626\r\n";
 		//String us2=deviceCrud.findAllTarjetasAndBuildUserTableForDevice();
@@ -82,8 +83,8 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		
 		//PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=1\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15\r\n", "");
 		//System.out.println(deviceCrud.findAllTarjetasAndBuildUserTableForDevice());
-		deviceCrud.readUsers(Connection.getTicketingConnection());
-		deviceCrud.readUsersAuths(Connection.getTicketingConnection());
+		deviceCrud.readUsers(TicketingConnection.getInstance().getConnectHandle());
+		deviceCrud.readUsersAuths(TicketingConnection.getInstance().getConnectHandle());
 		
 		/*	Connection.connectToticketing();
 		 
