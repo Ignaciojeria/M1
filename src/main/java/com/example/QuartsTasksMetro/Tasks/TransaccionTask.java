@@ -59,6 +59,8 @@ public class TransaccionTask implements Job {
 		return new TransaccionTask();
 	}
 
+	
+	
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException, NumberFormatException { 
@@ -89,7 +91,6 @@ public class TransaccionTask implements Job {
 		Scheduler schedulerFactory= new StdSchedulerFactory().getScheduler();
 		schedulerFactory.scheduleJob(jobdetail,simpletrigger);
 		
-		
 		schedulerFactory.start();
 		
 		
@@ -112,10 +113,12 @@ public class TransaccionTask implements Job {
 			//System.out.println(new String (arr,"UTF-8").trim());
 			
 			if(arr[index]<=0){
-				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionList.getInstance().getConnections()[1].getStationName());
+				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionList.getInstance().getConnections()[index].getStationName());
 				//ConnectionList.getInstance().getConnections()[index].connect();
 				return;
 			}
+			
+			
 			
 			String string = new String(arr, "UTF-8");
 			//System.out.println(string);
@@ -160,7 +163,7 @@ public class TransaccionTask implements Job {
 					
 					transaccionRepository.save(new Transaccion(fechaTransaccion,id,"ticketing",numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
 
-				
+			
 				
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -169,6 +172,7 @@ public class TransaccionTask implements Job {
 		}
 		}
 		}
+		
 	}
 	
 //	private void setNextHANDLE(HANDLE handlex){

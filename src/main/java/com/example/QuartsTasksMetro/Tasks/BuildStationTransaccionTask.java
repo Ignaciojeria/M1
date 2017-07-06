@@ -31,6 +31,7 @@ public class BuildStationTransaccionTask {
 		TransaccionTask.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
 		
 		TicketingConnection.getInstance().connect();
+		
 		TestConnection.getInstance().connect();
 		
 		TransaccionTask.getTransaccionTask().buildTransaccionTask();

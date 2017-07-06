@@ -9,7 +9,8 @@ public class TicketingConnection extends Connection {
 	}
 	//ip pública
 	//private static TicketingConnection ticketingconnection= new TicketingConnection("TCP","186.10.13.2","4370","5000","ticketing");
-	private static TicketingConnection ticketingconnection= new TicketingConnection("TCP","192.168.0.131","4370","5000","ticketing");
+	private static TicketingConnection ticketingconnection= new TicketingConnection("TCP","192.168.0.131","4370","4000","ticketing");
+	
 	public static TicketingConnection getInstance(){
 		return ticketingconnection;
 	}

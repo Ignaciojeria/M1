@@ -6,7 +6,7 @@ import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 
 
-public abstract class Connection{
+public abstract class Connection extends Thread{
 	private  int count=0;
 	private  String protocol="";
 	private  String ipaddress="";
@@ -19,6 +19,17 @@ public abstract class Connection{
 	//public static int nextHandle=0;
 	private byte[] arr= new byte[256];
 
+	//este método se encarga de hacer una pantalla del arr con datos harcodeados cuando se pierda la conexión.
+	public void gotowash(){
+	for (int i = 0; i < arr.length; i++) {
+		arr[i]=1;
+	}
+	}
+	private void backTowash(){
+		for (int i = 0; i < arr.length; i++) {
+			arr[i]=0;
+		}
+	}
 	
 	protected Connection(String protocol, String ipaddress,String port, String timeout,String stationName) {
 		this.protocol = protocol;
@@ -67,6 +78,7 @@ public abstract class Connection{
 
 	//Tarea Inicial de conectarse con la estación que se realiza de forma recursiva para cada estación hasta lograrse.
 	public void connect(){
+		backTowash();
 		if(this.connectNumber!=0){
 			System.out.println("Ya existe una conexión con la estación de: "+stationName);
 			return;
@@ -123,6 +135,11 @@ public abstract class Connection{
 		this.connectNumber=0;
 	}
 
+	@Override
+	public void run() {
+		connect();
+	}
 	
+
 	
 }

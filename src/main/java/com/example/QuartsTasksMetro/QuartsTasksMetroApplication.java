@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.example.QuartsTasksMetro.Device.DeviceCRUD;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnection;
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnection;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
@@ -58,24 +59,42 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTarjeta mockTarjeta= new MockTarjeta(tarjetaRepository);
 		mockTarjeta.rellenar();
 		
+		MockAlarma mockAlarma= new MockAlarma(repository);
+		mockAlarma.rellenar();
+		
 		MockUsuario mockUsuario= new MockUsuario(usuarioRepository);
 		mockUsuario.rellenar();
 		
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
 		
-		BuildStationTransaccionTask buildTransaccionTask= new BuildStationTransaccionTask( transaccionRepository,tarjetaRepository);
-		buildTransaccionTask.buildTasks();
-		
 		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
+		
+		TestConnection.getInstance().start();
+		TicketingConnection.getInstance().start();
+		//TestConnection.getInstance().join();
+		//System.out.println(TestConnection.getInstance().getConnectHandle());
+		
+	//System.out.println(deviceCrud.getHandle(TestConnection.getInstance().getConnectHandle(),TestConnection.getInstance()));
+		deviceCrud.readUsers(TestConnection.getInstance());
+		
+		deviceCrud.readUsersAuths(TicketingConnection.getInstance());
+		
+		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnection.getInstance());
+		
+		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnection.getInstance());
+		
+		
+	//	BuildStationTransaccionTask buildTransaccionTask= new BuildStationTransaccionTask( transaccionRepository,tarjetaRepository);
+	//	buildTransaccionTask.buildTasks();
+		
+	
 	//deviceCrud.deleteAllRegistersForDevice(TicketingConnection.getInstance().getConnectHandle());
 	//	deviceCrud.readUsers(Connection.getTicketingConnection());
 	//	deviceCrud.readUsersAuths(Connection.getTicketingConnection());
 		
 		//borra todo los registros de la tarjeta.
-		deviceCrud.deleteAllRegistersForDevice(TicketingConnection.getInstance().getConnectHandle());
-	
-		deviceCrud.SyncDeviceDataWhitDatabaseData(TicketingConnection.getInstance().getConnectHandle());
+
 		
 		//String us="Pin=1\tCardNo=3568056030\tPassword=\tStartTime=20170625\tEndTime=20180626\r\n";
 		//String us2=deviceCrud.findAllTarjetasAndBuildUserTableForDevice();
@@ -83,8 +102,7 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		
 		//PullSdk.getPullSdk().SetDeviceData(Connection.getTicketingConnection(), "userauthorize", "Pin=1\tAuthorizeTimezoneId=1\tAuthorizeDoorId=15\r\n", "");
 		//System.out.println(deviceCrud.findAllTarjetasAndBuildUserTableForDevice());
-		deviceCrud.readUsers(TicketingConnection.getInstance().getConnectHandle());
-		deviceCrud.readUsersAuths(TicketingConnection.getInstance().getConnectHandle());
+
 		
 		/*	Connection.connectToticketing();
 		 

@@ -20,33 +20,70 @@ public class DeviceCRUD {
 		this.tarjetaRepository=tarjetaRepository;
 	}
 
-	public void readUsersAuths(HANDLE handle) throws UnsupportedEncodingException{
+	public void readUsersAuths(Connection connection) throws UnsupportedEncodingException{
+		
+		try {
+			connection.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	int buff=(4*1024*1024);
 	byte[] arr= new byte[buff];
 	//Connection.getTicketingConnection();	
-	System.out.println(PullSdk.getPullSdk().GetDeviceData(handle,
+	System.out.println(PullSdk.getPullSdk().GetDeviceData(connection.getConnectHandle(),
 			   arr, buff, "userauthorize", "*", "", ""));
 	System.out.println(new String(arr,"UTF8").trim());
 	}
 	
 	
-	public void readUsers(HANDLE handle) throws UnsupportedEncodingException{
+	public void readUsers(Connection connection) throws UnsupportedEncodingException{
+		try {
+			connection.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int buff=(4*1024*1024);
 		byte[] arr= new byte[buff];
 	//	Connection.getTicketingConnection();	
-		System.out.println(PullSdk.getPullSdk().GetDeviceData(handle,
+		System.out.println(PullSdk.getPullSdk().GetDeviceData(connection.getConnectHandle(),
 				   arr, buff, "user", "*", "", ""));
 		System.out.println(new String(arr,"UTF8").trim());
 	}
 	
-	public void deleteAllRegistersForDevice(HANDLE handle){
-		PullSdk.getPullSdk().DeleteDeviceData(handle, "user", "*", "");
-		PullSdk.getPullSdk().DeleteDeviceData(handle, "userauthorize", "*", "");
+	public void deleteAllRegistersForDevice(Connection connection){
+		try {
+			connection.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "user", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "userauthorize", "*", "");
 	}
 	
-	public void SyncDeviceDataWhitDatabaseData(HANDLE handle){
-		PullSdk.getPullSdk().SetDeviceData(handle, "user",findAllTarjetasAndBuildUserTableForDevice(), "");
-		PullSdk.getPullSdk().SetDeviceData(handle, "userauthorize", FindTarjetasAndBuildUserauthorizeTableForDevice(), "");
+	public HANDLE getHandle(Connection connection){
+		try {
+			connection.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return connection.getConnectHandle();
+	}
+	
+	
+	public void SyncDeviceDataWhitDatabaseData(Connection connection){	
+		try {
+			connection.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PullSdk.getPullSdk().SetDeviceData(connection.getConnectHandle(), "user",findAllTarjetasAndBuildUserTableForDevice(), "");
+		PullSdk.getPullSdk().SetDeviceData(connection.getConnectHandle(), "userauthorize", FindTarjetasAndBuildUserauthorizeTableForDevice(), "");
 	}
 	
 	private String findAllTarjetasAndBuildUserTableForDevice(){
@@ -65,6 +102,7 @@ public class DeviceCRUD {
 			}
 		return usersBuilder.toString();
 	}
+	
 	private String FindTarjetasAndBuildUserauthorizeTableForDevice(){
 		List<Tarjeta> tarjetas=	tarjetaRepository.findAll();
 		StringBuilder usersBuilder = new StringBuilder();
