@@ -16,9 +16,16 @@ public class MockAlarma implements ImockCRUD {
 		 
 		 this.repository=repository;
 	 }
+
+	@Override
+	public void rellenar() {
+		// TODO Auto-generated method stub
+		
+	}
 	 
-	 @Override
+	
 	 //Agregar Clave foranea que correspondera a la clave de la estación en toda las alarmas.
+	/*
 	 public void rellenar(){
 		 repository.save(new Alarma("The command is not sent successfully",-1,false));
 		 repository.save(new Alarma("The command has no response",-2,false));
@@ -65,5 +72,5 @@ public class MockAlarma implements ImockCRUD {
 		 repository.save(new Alarma("Connection refused. ",10061,false));
 		 repository.save(new Alarma("No route to host. ",10065,false));
 	 }
-	
+	*/
 }

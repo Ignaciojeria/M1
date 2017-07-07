@@ -5,14 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-//una tabla de alarmas por cada estación en la bdd
+
 @Entity
 @Table(name="Alarma")
 public class Alarma {
 	
-	@Column(name="id_alarma")
+	
 	@Id
+	@Column(name="id_alarma")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String idAlarma;
 	
@@ -22,18 +25,25 @@ public class Alarma {
 	@Column(name="codigoError")
 	private int codigoError;
 	
-	@Column(name="estado")
-	private boolean estado;
-	
-	//no va a la base de datos!. falta clave foranea para cada uno de los registros y asociarlos a una estación
-	//private String estacion="Ticketing";
+	@ManyToOne
+	@JoinColumn(name="FK_placa", nullable=false)
+	private Placa placa;
 	
 	public Alarma(){}
-	
-	public Alarma(String mensaje, int codigoError, boolean estado) {
+
+	public Alarma(String idAlarma, String mensaje, int codigoError, Placa placa) {
+		this.idAlarma = idAlarma;
 		this.mensaje = mensaje;
 		this.codigoError = codigoError;
-		this.estado = estado;
+		this.placa = placa;
+	}
+
+	public String getIdAlarma() {
+		return idAlarma;
+	}
+
+	public void setIdAlarma(String idAlarma) {
+		this.idAlarma = idAlarma;
 	}
 
 	public String getMensaje() {
@@ -52,13 +62,11 @@ public class Alarma {
 		this.codigoError = codigoError;
 	}
 
-	public boolean isEstado() {
-		return estado;
+	public Placa getPlaca() {
+		return placa;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void setPlaca(Placa placa) {
+		this.placa = placa;
 	}
-	
-
 }

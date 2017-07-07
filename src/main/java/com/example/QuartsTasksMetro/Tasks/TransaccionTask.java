@@ -37,7 +37,7 @@ public class TransaccionTask implements Job {
 	
 	//public static byte[] arr = new byte[256];
 	//public static HANDLE handle[]= new HANDLE[2];
-	public static int id;
+	public static long id;
 
 	
 	//public static int nextHandle=0;
@@ -185,13 +185,13 @@ public class TransaccionTask implements Job {
 
 
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long idx) {
+		id = idx;
 	}
 
 

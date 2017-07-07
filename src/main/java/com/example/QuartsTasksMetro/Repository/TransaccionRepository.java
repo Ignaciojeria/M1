@@ -7,7 +7,8 @@ import com.example.QuartsTasksMetro.Entity.Transaccion;
 
 public interface TransaccionRepository extends JpaRepository<Transaccion,Long> {
 	
-	@Query("select max(t.numeroTransaccion) from Transaccion t")
-	int findLastTransaction();
+	//@Query("select max(t.numeroTransaccion) from Transaccion t")
+	@Query("select COUNT(*) from Transaccion")
+	long findLastTransaction();
 
 }
