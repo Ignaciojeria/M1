@@ -2,6 +2,8 @@ package com.example.QuartsTasksMetro.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 //una tabla de alarmas por cada estación en la bdd
@@ -9,9 +11,10 @@ import javax.persistence.Table;
 @Table(name="Alarma")
 public class Alarma {
 	
-	@Column(name="id_error")
+	@Column(name="id_alarma")
 	@Id
-	private String idError;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String idAlarma;
 	
 	@Column(name="mensaje")
 	private String mensaje;

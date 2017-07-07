@@ -59,8 +59,8 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTarjeta mockTarjeta= new MockTarjeta(tarjetaRepository);
 		mockTarjeta.rellenar();
 		
-		MockAlarma mockAlarma= new MockAlarma(repository);
-		mockAlarma.rellenar();
+		//MockAlarma mockAlarma= new MockAlarma(repository);
+		//mockAlarma.rellenar();
 		
 		MockUsuario mockUsuario= new MockUsuario(usuarioRepository);
 		mockUsuario.rellenar();
