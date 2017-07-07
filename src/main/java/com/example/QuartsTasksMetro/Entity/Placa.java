@@ -24,5 +24,45 @@ public class Placa {
 	@JoinColumn(name="FK_estacion", nullable=false)
 	private Estacion estacion;
 	
+	public Placa(){}
+
+	public Placa(long idPlaca, boolean estado, Conexion conexion, Estacion estacion) {
+		this.idPlaca = idPlaca;
+		this.estado = estado;
+		this.conexion = conexion;
+		this.estacion = estacion;
+	}
+
+	public long getIdPlaca() {
+		return idPlaca;
+	}
+
+	public void setIdPlaca(long idPlaca) {
+		this.idPlaca = idPlaca;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	public Conexion getConexion() {
+		return conexion;
+	}
+
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
+	}
+
+	public Estacion getEstacion() {
+		return estacion;
+	}
+
+	public void setEstacion(Estacion estacion) {
+		this.estacion = estacion;
+	}
 
 }
