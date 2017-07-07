@@ -7,17 +7,24 @@ import com.example.QuartsTasksMetro.Repository.ConexionRepository;
 
 public class AllConnections extends Connection {
 	
-	private ConexionRepository conexionrepository;
+	private static ConexionRepository conexionrepository;
 	
-	private Connection[] connections= new Connection[conexionrepository.findLastConnection()];
+	private static Connection[] connections= new Connection[conexionrepository.findLastConnection()];
 
 	protected AllConnections(String protocol, String ipaddress, String port, String timeout, String stationName) {
 		super(protocol, ipaddress, port, timeout, stationName);
 	}
 	
 	@Autowired
-	public void setConexionrepository(ConexionRepository conexionrepository){
-		this.conexionrepository=conexionrepository;
+	public void setConexionrepository(ConexionRepository conexionrepositoryx){
+		conexionrepository=conexionrepositoryx;
+	}
+	
+	public void buildConnections(){
+		for (int i = 0; i < connections.length; i++) {
+			String ipaddress=conexionrepository.findbyConnectionId(i).getIpaddress();
+			connections[i]=new Connection();
+		}
 	}
 
 }

@@ -9,4 +9,6 @@ public interface ConexionRepository extends JpaRepository<Conexion,Long> {
 
 	@Query("select COUNT(*) from Transaccion t")
 	int findLastConnection();
+	
+	Conexion findbyConnectionId(long connectionid);
 }
