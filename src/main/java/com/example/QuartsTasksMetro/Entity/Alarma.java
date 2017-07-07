@@ -9,10 +9,13 @@ import javax.persistence.Table;
 @Table(name="Alarma")
 public class Alarma {
 	
+	@Column(name="id_error")
+	@Id
+	private String idError;
+	
 	@Column(name="mensaje")
 	private String mensaje;
 	
-	@Id
 	@Column(name="codigoError")
 	private int codigoError;
 	
