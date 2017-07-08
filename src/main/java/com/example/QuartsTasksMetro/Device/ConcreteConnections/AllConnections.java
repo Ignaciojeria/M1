@@ -22,8 +22,8 @@ public class AllConnections extends Connection {
 	
 	public void buildConnections(){
 		for (int i = 0; i < connections.length; i++) {
-			String ipaddress=conexionrepository.findbyConnectionId(i).getIpaddress();
-			connections[i]=new Connection();
+		//	String ipaddress=conexionrepository.findbyConnectionId(i).getIpaddress();
+		//	connections[i]=new Connection();
 		}
 	}
 
