@@ -9,6 +9,10 @@ public class MockConexion implements ImockCRUD {
 	
 	@Autowired
 	private ConexionRepository conexionRepository;
+	
+	public MockConexion(ConexionRepository conexionRepository){
+		this.conexionRepository=conexionRepository;
+	}
 
 	@Override
 	public void rellenar() {

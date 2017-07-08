@@ -27,7 +27,7 @@ import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 
-public class TransaccionTask implements Job {
+public class TransaccionTaskOld implements Job {
 	
 	@Autowired
 	public static TransaccionRepository transaccionRepository;
@@ -46,7 +46,7 @@ public class TransaccionTask implements Job {
 	
 	//Singleton de la clase TransaccionTask
 
-	public TransaccionTask(){}
+	public TransaccionTaskOld(){}
 	
 	//Retorno del Singleton
 	//singleton al que se le pasan los setters de la inyección de dependencias de de los repositorios de las tarjetas y transacciones.
@@ -55,8 +55,8 @@ public class TransaccionTask implements Job {
 		tarjetaRepository=tarjetaRepositoryx;
 	}
 	
-	public static TransaccionTask getTransaccionTask(){
-		return new TransaccionTask();
+	public static TransaccionTaskOld getTransaccionTask(){
+		return new TransaccionTaskOld();
 	}
 
 	
@@ -81,7 +81,7 @@ public class TransaccionTask implements Job {
 	try{
 		JobDetail jobdetail= new JobDetail();
 		jobdetail.setName("TransaccionTaskDetail");
-		jobdetail.setJobClass(TransaccionTask.class);
+		jobdetail.setJobClass(TransaccionTaskOld.class);
 		
 		SimpleTrigger simpletrigger = new SimpleTrigger();
 		simpletrigger.setName("Trigger");

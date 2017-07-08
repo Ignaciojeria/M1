@@ -1,0 +1,131 @@
+[33mcommit 628ece48d31952695bf1dcba6a699fc12901ab81[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Sat Jul 8 15:08:37 2017 -0400
+
+    se han arreglado algunos errores correspondientes al commit anterior
+
+[33mcommit 82659329f3223270b6315a34434cf3694a5cb202[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Fri Jul 7 13:54:54 2017 -0400
+
+    Creando instancias de múltiples conexiones
+
+[33mcommit 5d3914dd37366c443a494b1b19fab04c0e703e9d[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Fri Jul 7 13:31:35 2017 -0400
+
+    Se ha creado la clase AllConnections que se debe encargar de cargar todas las conexiones de todas las estaciones que encuentre en bdd para monitorizarlas
+
+[33mcommit f06640d26e7ef87dfdd8548cafcb5c259508f96c[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Fri Jul 7 11:56:42 2017 -0400
+
+    se han arreglado algunas cosas del commit anterior
+
+[33mcommit 015cbef1ee441a078ed7a636d2f06145ffbfc469[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Fri Jul 7 11:55:54 2017 -0400
+
+    se ha creado la tabla placa y ahora debemos relacionarla con la tabla alarma
+
+[33mcommit 4cb090e7c8689e1bc2d1421b7306ae2ee1b463a8[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Fri Jul 7 11:33:10 2017 -0400
+
+    Se ha modificado la tabla Alarma y se debe modificar el mock alarma
+
+[33mcommit f14749fcab7a84e40366ae780c9cd00a21d3a15d[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Fri Jul 7 11:16:54 2017 -0400
+
+    Creadas las tablas conexión y estación, Ahora falta crear la tabla placa y relacionarla
+
+[33mcommit 7d5c9540842b895719224ddc7732a8605768aba4[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Thu Jul 6 19:02:48 2017 -0400
+
+    Sincronizacion de threads funcionando
+
+[33mcommit 368162cf3d56421ada72ccbfac47bc3c4bd22045[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jul 5 18:05:02 2017 -0400
+
+    Monitorizando toda las placas conchatumare!!
+
+[33mcommit 6fb63625d8c2fe1f6230c147937b40df717596a3[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jul 5 15:40:10 2017 -0400
+
+    Modificando cosas en la conexión
+
+[33mcommit 89e8064287b85656b71a890a963f84f4d3a63be7[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jul 5 09:47:11 2017 -0400
+
+    Se han hecho cambios se ha documentado algunas cosas y desde este punto cambiaremos cosas en la conexión
+
+[33mcommit 4df98ff84e5e3e287f176dd1e69399db81fcc77f[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Tue Jul 4 17:38:34 2017 -0400
+
+    Retorno antes de preparar las multiples instancias de conexiones
+
+[33mcommit d64c05e78bb820c23d7c8570b63fd8298d24540d[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Mon Jul 3 18:19:37 2017 -0400
+
+    Punto de retorno antes de comenzar a hace modificaciones en la conexión creando distintas instancias de estaciones
+
+[33mcommit 7b70f2ca2fc2f144a43410170439feee74a51427[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Mon Jul 3 17:50:42 2017 -0400
+
+    Se agregan privilegios de acceso para todo los usuarios sin filtro si está activado o no
+
+[33mcommit e1d6f02f74931f91f5c11bb7c24ce9a9b62fb43a[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Mon Jul 3 17:26:31 2017 -0400
+
+    Agregando todo los datos correspondientes a la tabla Tarjeta de la base de datos al la tabla user del dispositivo
+
+[33mcommit 7023dc350b5b3a57058d174bc684e07ea3a75e83[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Thu Jun 29 18:51:43 2017 -0400
+
+    Se deben agregar los datos provenientes de la base de datos a la placa
+
+[33mcommit c93f8ddf5c647336ff7200cabcea9fadd3621a94[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Thu Jun 29 13:29:30 2017 -0400
+
+    Refinamiento de registro en las transacciones
+
+[33mcommit 754ce2a0b54ca90339b4401899f8d695de65f3f6[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jun 28 18:28:40 2017 -0400
+
+    Se han cambiado algunas relaciones
+
+[33mcommit 9d35d9a332a1a82948f4921c1df4955c5877720a[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jun 28 16:52:27 2017 -0400
+
+    Punto de retorno Justo antes de crear los controladores
+
+[33mcommit 662829110191ad8b8827339d2570ea2ed29615f8[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jun 28 12:27:23 2017 -0400
+
+    Relación tarjeta-transaccion funcionando correctamente
+
+[33mcommit 2b1698e366d07a006de41c05837bf38dd82185b6[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Wed Jun 28 11:39:17 2017 -0400
+
+    Probando relaciones
+
+[33mcommit ac1f5e41d76f1598311936b89e57c1fe344c3025[m
+Author: Ignacio Jeria <Ignaciovl.j@gmail.com>
+Date:   Tue Jun 27 17:52:27 2017 -0400
+
+    Monitoreo transacciones funcionando para metro

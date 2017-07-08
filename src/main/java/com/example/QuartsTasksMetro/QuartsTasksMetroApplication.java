@@ -11,19 +11,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.example.QuartsTasksMetro.Device.DeviceCRUD;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.BuildAllConnections;
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnection;
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnection;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TransaccionTasks;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
+import com.example.QuartsTasksMetro.Mock.MockConexion;
 import com.example.QuartsTasksMetro.Mock.MockTarjeta;
 import com.example.QuartsTasksMetro.Mock.MockTransaccion;
 import com.example.QuartsTasksMetro.Mock.MockUsuario;
 import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
+import com.example.QuartsTasksMetro.Repository.ConexionRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.example.QuartsTasksMetro.Repository.UsuarioRepository;
-import com.example.QuartsTasksMetro.Tasks.BuildStationTransaccionTask;
-import com.example.QuartsTasksMetro.Tasks.TransaccionTask;
+import com.example.QuartsTasksMetro.Tasks.BuildStationTransaccionTaskOld;
+import com.example.QuartsTasksMetro.Tasks.TransaccionTaskOld;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 @SpringBootApplication
@@ -41,6 +45,9 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 	 @Autowired 
 	 private TransaccionRepository transaccionRepository;
 	 
+	 @Autowired
+	 private ConexionRepository conexionRepository;
+	 
 	public static void main(String[] args) {
 		SpringApplication.run(QuartsTasksMetroApplication.class, args);
 
@@ -55,7 +62,10 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 			//mockAlarma.rellenar();
 		//System.out.println(PullSdk.getPullSdk().GetRTLog(connection.getConnectHandle(), new byte[256], 256));
 		//----------------------------------------------------------------------------------------------------------
-
+		
+		MockConexion mockConexion= new MockConexion(conexionRepository);
+		mockConexion.rellenar();
+		
 		MockTarjeta mockTarjeta= new MockTarjeta(tarjetaRepository);
 		mockTarjeta.rellenar();
 		
@@ -67,6 +77,10 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
+		
+		BuildAllConnections buildAllConnections= new BuildAllConnections(conexionRepository);
+		//buildAllConnections.buildConnections();
+		
 		
 		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
 		

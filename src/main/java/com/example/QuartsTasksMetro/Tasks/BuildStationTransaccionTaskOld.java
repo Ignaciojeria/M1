@@ -10,7 +10,7 @@ import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnecti
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 
-public class BuildStationTransaccionTask {
+public class BuildStationTransaccionTaskOld {
 	
 	 @Autowired 
 	 private static TransaccionRepository transaccionRepository;
@@ -20,7 +20,7 @@ public class BuildStationTransaccionTask {
 	 
 
 	 
-	 public BuildStationTransaccionTask(TransaccionRepository transaccionRepositoryx, TarjetaRepository tarjetaRepositoryx){
+	 public BuildStationTransaccionTaskOld(TransaccionRepository transaccionRepositoryx, TarjetaRepository tarjetaRepositoryx){
 		 transaccionRepository=transaccionRepositoryx;
 		 tarjetaRepository=tarjetaRepositoryx;
 	 }
@@ -28,13 +28,13 @@ public class BuildStationTransaccionTask {
 	 
 	public void buildTasks() throws SchedulerException{
 		//Considerala cómo una transaccion génerica (debes hacer refactoring del método getTaskTicketing).
-		TransaccionTask.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
+		TransaccionTaskOld.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
 		
 		TicketingConnection.getInstance().connect();
 		
 		TestConnection.getInstance().connect();
 		
-		TransaccionTask.getTransaccionTask().buildTransaccionTask();
+		TransaccionTaskOld.getTransaccionTask().buildTransaccionTask();
 		
 		/*
 		TestConnection.getInstance().connect();
