@@ -4,13 +4,13 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.QuartsTasksMetro.Device.Connection;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionList;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnection;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnection;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionListDeprecated;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnectionDeprecated;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnectionDeprecated;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 
-public class BuildStationTransaccionTaskOld {
+public class BuildStationTransaccionTaskDeprecated {
 	
 	 @Autowired 
 	 private static TransaccionRepository transaccionRepository;
@@ -20,7 +20,7 @@ public class BuildStationTransaccionTaskOld {
 	 
 
 	 
-	 public BuildStationTransaccionTaskOld(TransaccionRepository transaccionRepositoryx, TarjetaRepository tarjetaRepositoryx){
+	 public BuildStationTransaccionTaskDeprecated(TransaccionRepository transaccionRepositoryx, TarjetaRepository tarjetaRepositoryx){
 		 transaccionRepository=transaccionRepositoryx;
 		 tarjetaRepository=tarjetaRepositoryx;
 	 }
@@ -28,13 +28,13 @@ public class BuildStationTransaccionTaskOld {
 	 
 	public void buildTasks() throws SchedulerException{
 		//Considerala cómo una transaccion génerica (debes hacer refactoring del método getTaskTicketing).
-		TransaccionTaskOld.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
+		TransaccionTaskOldDeprecaded.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
 		
-		TicketingConnection.getInstance().connect();
+		TicketingConnectionDeprecated.getInstance().connect();
 		
-		TestConnection.getInstance().connect();
+		TestConnectionDeprecated.getInstance().connect();
 		
-		TransaccionTaskOld.getTransaccionTask().buildTransaccionTask();
+		TransaccionTaskOldDeprecaded.getTransaccionTask().buildTransaccionTask();
 		
 		/*
 		TestConnection.getInstance().connect();

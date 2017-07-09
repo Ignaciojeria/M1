@@ -9,11 +9,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.QuartsTasksMetro.Device.DeviceCRUD;
+import com.example.QuartsTasksMetro.Device.BuildAllConnections;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.BuildAllConnections;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnection;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnection;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnectionDeprecated;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnectionDeprecated;
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.TransaccionTasks;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
@@ -23,11 +23,12 @@ import com.example.QuartsTasksMetro.Mock.MockTransaccion;
 import com.example.QuartsTasksMetro.Mock.MockUsuario;
 import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
 import com.example.QuartsTasksMetro.Repository.ConexionRepository;
+import com.example.QuartsTasksMetro.Repository.PlacaRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.example.QuartsTasksMetro.Repository.UsuarioRepository;
-import com.example.QuartsTasksMetro.Tasks.BuildStationTransaccionTaskOld;
-import com.example.QuartsTasksMetro.Tasks.TransaccionTaskOld;
+import com.example.QuartsTasksMetro.Tasks.BuildStationTransaccionTaskDeprecated;
+import com.example.QuartsTasksMetro.Tasks.TransaccionTaskOldDeprecaded;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 @SpringBootApplication
@@ -35,6 +36,9 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 	
 	 @Autowired
 	 private AlarmaRepository repository;
+	 
+	 @Autowired 
+	 PlacaRepository placaRepository;
 	 
 	 @Autowired
 	 private TarjetaRepository tarjetaRepository;
@@ -78,25 +82,25 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
 		
-		BuildAllConnections buildAllConnections= new BuildAllConnections(conexionRepository);
-		//buildAllConnections.buildConnections();
+		BuildAllConnections buildAllConnections= new BuildAllConnections(conexionRepository,placaRepository);
+		buildAllConnections.buildConnections();
 		
 		
 		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
 		
-		TestConnection.getInstance().start();
-		TicketingConnection.getInstance().start();
+		TestConnectionDeprecated.getInstance().start();
+		TicketingConnectionDeprecated.getInstance().start();
 		//TestConnection.getInstance().join();
 		//System.out.println(TestConnection.getInstance().getConnectHandle());
 		
 	//System.out.println(deviceCrud.getHandle(TestConnection.getInstance().getConnectHandle(),TestConnection.getInstance()));
-		deviceCrud.readUsers(TestConnection.getInstance());
+		deviceCrud.readUsers(TestConnectionDeprecated.getInstance());
 		
-		deviceCrud.readUsersAuths(TicketingConnection.getInstance());
+		deviceCrud.readUsersAuths(TicketingConnectionDeprecated.getInstance());
 		
-		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnection.getInstance());
+		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnectionDeprecated.getInstance());
 		
-		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnection.getInstance());
+		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnectionDeprecated.getInstance());
 		
 		
 	//	BuildStationTransaccionTask buildTransaccionTask= new BuildStationTransaccionTask( transaccionRepository,tarjetaRepository);

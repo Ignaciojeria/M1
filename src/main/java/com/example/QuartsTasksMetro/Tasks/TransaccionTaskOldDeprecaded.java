@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionList;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionListDeprecated;
 import com.example.QuartsTasksMetro.Entity.Tarjeta;
 import com.example.QuartsTasksMetro.Entity.Transaccion;
 import com.example.QuartsTasksMetro.Entity.Usuario;
@@ -27,7 +27,7 @@ import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 
-public class TransaccionTaskOld implements Job {
+public class TransaccionTaskOldDeprecaded implements Job {
 	
 	@Autowired
 	public static TransaccionRepository transaccionRepository;
@@ -46,7 +46,7 @@ public class TransaccionTaskOld implements Job {
 	
 	//Singleton de la clase TransaccionTask
 
-	public TransaccionTaskOld(){}
+	public TransaccionTaskOldDeprecaded(){}
 	
 	//Retorno del Singleton
 	//singleton al que se le pasan los setters de la inyección de dependencias de de los repositorios de las tarjetas y transacciones.
@@ -55,8 +55,8 @@ public class TransaccionTaskOld implements Job {
 		tarjetaRepository=tarjetaRepositoryx;
 	}
 	
-	public static TransaccionTaskOld getTransaccionTask(){
-		return new TransaccionTaskOld();
+	public static TransaccionTaskOldDeprecaded getTransaccionTask(){
+		return new TransaccionTaskOldDeprecaded();
 	}
 
 	
@@ -81,7 +81,7 @@ public class TransaccionTaskOld implements Job {
 	try{
 		JobDetail jobdetail= new JobDetail();
 		jobdetail.setName("TransaccionTaskDetail");
-		jobdetail.setJobClass(TransaccionTaskOld.class);
+		jobdetail.setJobClass(TransaccionTaskOldDeprecaded.class);
 		
 		SimpleTrigger simpletrigger = new SimpleTrigger();
 		simpletrigger.setName("Trigger");
@@ -101,19 +101,19 @@ public class TransaccionTaskOld implements Job {
 	
 	private void transaccionTask(){
 		
-		for (int index = 0; index < ConnectionList.getInstance().getConnections().length; index++) {
+		for (int index = 0; index < ConnectionListDeprecated.getInstance().getConnections().length; index++) {
 			
 
 		for (int i = 0; i <27 ; i++) {
-			byte[] arr= ConnectionList.getInstance().getConnections()[index].getArr();
-			HANDLE handle=ConnectionList.getInstance().getConnections()[index].getConnectHandle();
+			byte[] arr= ConnectionListDeprecated.getInstance().getConnections()[index].getArr();
+			HANDLE handle=ConnectionListDeprecated.getInstance().getConnections()[index].getConnectHandle();
 		try { 
 			
 			PullSdk.getPullSdk().GetRTLog(handle, arr, 256);
 			//System.out.println(new String (arr,"UTF-8").trim());
 			
 			if(arr[index]<=0){
-				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionList.getInstance().getConnections()[index].getStationName());
+				System.out.println("Se ha perdido la conexión de la estación de: "+ ConnectionListDeprecated.getInstance().getConnections()[index].getStationName());
 				//ConnectionList.getInstance().getConnections()[index].connect();
 				return;
 			}

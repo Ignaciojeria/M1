@@ -6,7 +6,7 @@ import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 
 
-public abstract class Connection extends Thread{
+public class Connection extends Thread{
 	private  int count=0;
 	private  String protocol="";
 	private  String ipaddress="";
@@ -38,7 +38,7 @@ public abstract class Connection extends Thread{
 		this.timeout = timeout;
 		this.stationName=stationName;
 		}
-	public Connection(){}
+	protected Connection(){}
 	
 	/*
 	private static Connection ticketingConnection= new Connection("TCP","186.10.13.2","4370","5000","ticketing");

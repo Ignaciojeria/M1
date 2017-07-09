@@ -16,8 +16,8 @@ public class MockConexion implements ImockCRUD {
 
 	@Override
 	public void rellenar() {
-		conexionRepository.save(new Conexion(2,"TCP","192.168.0.131","4370","4000","ticketing"));
-		conexionRepository.save(new Conexion(1,"TCP","192.168.0.132","4370","5000","testing"));
+		conexionRepository.save(new Conexion(2,"TCP","192.168.0.131","4370","4000","a123456"));
+		conexionRepository.save(new Conexion(1,"TCP","192.168.0.132","4370","5000","a123456"));
 	}
 
 }

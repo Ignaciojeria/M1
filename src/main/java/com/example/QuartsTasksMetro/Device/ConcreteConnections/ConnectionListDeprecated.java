@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 import com.example.QuartsTasksMetro.Device.Connection;
 
-public class ConnectionList {
+public class ConnectionListDeprecated {
 	
 	private Connection[] connections= new Connection[2];
 	
-	private static ConnectionList connectionList = new ConnectionList();
+	private static ConnectionListDeprecated connectionList = new ConnectionListDeprecated();
 	
-	private ConnectionList(){
+	private ConnectionListDeprecated(){
 		add();
 	}
-	public static ConnectionList getInstance(){
+	public static ConnectionListDeprecated getInstance(){
 		return connectionList;
 	}
 	
 	private void add(){
-		connections[0]=TicketingConnection.getInstance();
-		connections[1]=TestConnection.getInstance();
+		connections[0]=TicketingConnectionDeprecated.getInstance();
+		connections[1]=TestConnectionDeprecated.getInstance();
 	}
 	
 	public Connection[] getConnections() {
