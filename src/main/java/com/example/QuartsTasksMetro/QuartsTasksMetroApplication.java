@@ -18,11 +18,14 @@ import com.example.QuartsTasksMetro.Device.ConcreteConnections.TransaccionTasks;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
 import com.example.QuartsTasksMetro.Mock.MockConexion;
+import com.example.QuartsTasksMetro.Mock.MockEstacion;
+import com.example.QuartsTasksMetro.Mock.MockPlaca;
 import com.example.QuartsTasksMetro.Mock.MockTarjeta;
 import com.example.QuartsTasksMetro.Mock.MockTransaccion;
 import com.example.QuartsTasksMetro.Mock.MockUsuario;
 import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
 import com.example.QuartsTasksMetro.Repository.ConexionRepository;
+import com.example.QuartsTasksMetro.Repository.EstacionRepository;
 import com.example.QuartsTasksMetro.Repository.PlacaRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
@@ -37,8 +40,11 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 	 @Autowired
 	 private AlarmaRepository repository;
 	 
+	 @Autowired
+	 private EstacionRepository estacionRepository;
+	 
 	 @Autowired 
-	 PlacaRepository placaRepository;
+	 private PlacaRepository placaRepository;
 	 
 	 @Autowired
 	 private TarjetaRepository tarjetaRepository;
@@ -69,6 +75,12 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		
 		MockConexion mockConexion= new MockConexion(conexionRepository);
 		mockConexion.rellenar();
+		
+		MockEstacion mockEstacion= new MockEstacion(estacionRepository);
+		mockEstacion.rellenar();
+		
+		MockPlaca mockPlaca= new MockPlaca(placaRepository);
+		mockPlaca.rellenar();
 		
 		MockTarjeta mockTarjeta= new MockTarjeta(tarjetaRepository);
 		mockTarjeta.rellenar();
