@@ -78,7 +78,7 @@ public class Connection extends Thread{
 	}
 
 	//Tarea Inicial de conectarse con la estación que se realiza de forma recursiva para cada estación hasta lograrse.
-	public void connect(){
+	private void connect(){
 		backTowash();
 		if(this.connectNumber!=0){
 			System.out.println("Ya existe una conexión con la estación de: "+stationName);

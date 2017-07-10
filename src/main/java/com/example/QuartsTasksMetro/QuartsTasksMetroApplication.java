@@ -12,9 +12,9 @@ import com.example.QuartsTasksMetro.Device.DeviceCRUD;
 import com.example.QuartsTasksMetro.Device.BuildAllConnections;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Device.TransaccionTasks;
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.TestConnectionDeprecated;
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.TicketingConnectionDeprecated;
-import com.example.QuartsTasksMetro.Device.ConcreteConnections.TransaccionTasks;
 import com.example.QuartsTasksMetro.Entity.Alarma;
 import com.example.QuartsTasksMetro.Mock.MockAlarma;
 import com.example.QuartsTasksMetro.Mock.MockConexion;
@@ -96,12 +96,31 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		
 		BuildAllConnections buildAllConnections= new BuildAllConnections(conexionRepository,placaRepository);
 		buildAllConnections.buildConnections();
+		buildAllConnections.start();
 		
+		System.out.println("Pasó el thread");
 		
-		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
+		TransaccionTasks.setTarjetaRepository(tarjetaRepository);
+		TransaccionTasks.setTransaccionRepository(transaccionRepository);
 		
-		TestConnectionDeprecated.getInstance().start();
-		TicketingConnectionDeprecated.getInstance().start();
+		//entonces la idea sería que la calse BuildAllTransaccionTask arme toda las tareas de transacciones correspondientes.
+		new TransaccionTasks(BuildAllConnections.getConnections()[0]).start();
+		
+		System.out.println("pasó el segundo thread");
+		
+		new TransaccionTasks(BuildAllConnections.getConnections()[1]).start();
+		
+		//transaccionTasks.InitTransaccionTask();
+		
+		//Connection connection= BuildAllConnections.getConnections()[1];
+		 
+		
+	//	transaccionTasks.InitTransaccionTask(BuildAllConnections.getConnections()[1]);
+
+	//	DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
+		
+		//TestConnectionDeprecated.getInstance().start();
+		//TicketingConnectionDeprecated.getInstance().start();
 		//TestConnection.getInstance().join();
 		//System.out.println(TestConnection.getInstance().getConnectHandle());
 		
@@ -109,13 +128,13 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 	
 		//	deviceCrud.readUsers(TestConnectionDeprecated.getInstance());
 		
-		deviceCrud.readUsers(TicketingConnectionDeprecated.getInstance());
+	//	deviceCrud.readUsers(TicketingConnectionDeprecated.getInstance());
 		
-		deviceCrud.readUsersAuths(TicketingConnectionDeprecated.getInstance());
+	//	deviceCrud.readUsersAuths(TicketingConnectionDeprecated.getInstance());
 		
-		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnectionDeprecated.getInstance());
+	//	deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnectionDeprecated.getInstance());
 		
-		deviceCrud.SyncDeviceDataWhitDatabaseData(TicketingConnectionDeprecated.getInstance());
+	//	deviceCrud.SyncDeviceDataWhitDatabaseData(TicketingConnectionDeprecated.getInstance());
 		
 		
 	//	BuildStationTransaccionTask buildTransaccionTask= new BuildStationTransaccionTask( transaccionRepository,tarjetaRepository);

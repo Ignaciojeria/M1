@@ -30,9 +30,9 @@ public class BuildStationTransaccionTaskDeprecated {
 		//Considerala cómo una transaccion génerica (debes hacer refactoring del método getTaskTicketing).
 		TransaccionTaskOldDeprecaded.setRepositoriesTransaccionTasks(transaccionRepository, tarjetaRepository);
 		
-		TicketingConnectionDeprecated.getInstance().connect();
+	//	TicketingConnectionDeprecated.getInstance().connect();
 		
-		TestConnectionDeprecated.getInstance().connect();
+	//	TestConnectionDeprecated.getInstance().connect();
 		
 		TransaccionTaskOldDeprecaded.getTransaccionTask().buildTransaccionTask();
 		

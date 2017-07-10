@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.QuartsTasksMetro.Repository.ConexionRepository;
 import com.example.QuartsTasksMetro.Repository.PlacaRepository;
 
-public class BuildAllConnections extends Connection {
+public class BuildAllConnections extends Thread{
 	
 	@Autowired
 	private static ConexionRepository conexionrepository;
@@ -14,9 +14,9 @@ public class BuildAllConnections extends Connection {
 	
 	private static Connection[] connections;
 	
-	protected BuildAllConnections(String protocol, String ipaddress, String port, String timeout, String stationName) {
-		super(protocol, ipaddress, port, timeout, stationName);
-	}
+	//protected BuildAllConnections(String protocol, String ipaddress, String port, String timeout, String stationName) {
+	//	super(protocol, ipaddress, port, timeout, stationName);
+	//}
 	public BuildAllConnections(ConexionRepository conexionrepositoryx,PlacaRepository placarepositoryx){
 		conexionrepository=conexionrepositoryx;
 		placarepository=placarepositoryx;
@@ -37,9 +37,13 @@ public class BuildAllConnections extends Connection {
 		}
 	}
 	
-	public void connectAll(){
+	public void run() {
+		connectAll();
+	}
+	
+	private void connectAll(){
 		for (int i = 0; i < connections.length; i++) {
-			connections[i].connect();
+			connections[i].start();
 		}
 	}
 	
