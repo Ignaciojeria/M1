@@ -21,8 +21,15 @@ public class MockUsuario implements ImockCRUD {
 	@Override
 	public void rellenar() {
 		// TODO Auto-generated method stub
-			usuarioRepository.save(new Usuario("Ignacio",23,18666636,4));
-			usuarioRepository.save(new Usuario("juanito",18,18666633,2));
+			usuarioRepository.save(new Usuario("Ignacio","Jeria",23,18666636,'4'));
+			usuarioRepository.save(new Usuario("juanito","perez",18,18666633,'2'));
+			//Funcionarios METRO
+			usuarioRepository.save(new Usuario("ARMIN PATRICIO","BARRIENTOS GUARDA",18,13062001,'9'));
+			usuarioRepository.save(new Usuario("ANDY ALEJANDRO","CORNEJO CORNEJO",18,14205475,'2'));
+			usuarioRepository.save(new Usuario("MATIAS IVAN","ITURRIETA RAMIREZ",18,10624025,'6'));
+			usuarioRepository.save(new Usuario("RENIER ALFONSO","CRUZ DIAZ",18,13672262,'K'));
+			usuarioRepository.save(new Usuario("PATRICIO JAVIER","SILVA VALLE",18,10229321,'5'));
+			usuarioRepository.save(new Usuario("PAMELA","GONZALEZ GUZMAN",18,17244994,'8'));
 	}
 
 }

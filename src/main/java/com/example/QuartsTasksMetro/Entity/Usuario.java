@@ -12,6 +12,9 @@ public class Usuario {
 	@Column(name="nombre", nullable=false)
 	private String nombre;
 	
+	@Column(name="apellidos", nullable=false)
+	private String apellidos;
+	
 	@Column(name="edad", nullable=false)
 	private int edad;
 	
@@ -20,18 +23,18 @@ public class Usuario {
 	private int rut;
 	
 	@Column(name="dvrut", nullable=false)
-	private int dvrut;
+	private char dvrut;
 	
 
 	
 	public Usuario(){}
 
-	public Usuario(String nombre, int edad, int rut, int dvrut) {
+	public Usuario(String nombre, String apellidos, int edad, int rut, char dvrut) {
 		this.nombre = nombre;
+		this.apellidos=apellidos;
 		this.edad = edad;
 		this.rut = rut;
 		this.dvrut = dvrut;
-		
 	}
 
 	public String getNombre() {
@@ -44,6 +47,13 @@ public class Usuario {
 
 	public int getEdad() {
 		return edad;
+	}
+	
+	public String getApellidos(){
+		return apellidos;
+	}
+	public void setApellidos(String apellidos){
+		this.apellidos=apellidos;
 	}
 
 	public void setEdad(int edad) {
@@ -58,11 +68,11 @@ public class Usuario {
 		this.rut = rut;
 	}
 
-	public int getDvrut() {
+	public char getDvrut() {
 		return dvrut;
 	}
 
-	public void setDvrut(int dvrut) {
+	public void setDvrut(char dvrut) {
 		this.dvrut = dvrut;
 	}
 	

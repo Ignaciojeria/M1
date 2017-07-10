@@ -34,9 +34,17 @@ public class BuildAllConnections extends Connection {
 			System.out.println("Comprobando armado de conexiones["+i+"] protocol: "+protocol
 		    +" ipaddress: "+ipaddress+" port: "+port+ " timeout: "+timeout+" estacion: "+estacion);
 			connections[i]= new Connection(protocol,ipaddress,port,timeout,estacion);
-		//	connections[i]=new Connection();
-		//	System.out.println(i);
 		}
+	}
+	
+	public void connectAll(){
+		for (int i = 0; i < connections.length; i++) {
+			connections[i].connect();
+		}
+	}
+	
+	public static Connection[] getConnections(){
+		return connections;
 	}
 
 }

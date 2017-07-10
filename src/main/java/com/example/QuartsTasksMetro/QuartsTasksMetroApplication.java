@@ -106,13 +106,16 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		//System.out.println(TestConnection.getInstance().getConnectHandle());
 		
 	//System.out.println(deviceCrud.getHandle(TestConnection.getInstance().getConnectHandle(),TestConnection.getInstance()));
-		deviceCrud.readUsers(TestConnectionDeprecated.getInstance());
+	
+		//	deviceCrud.readUsers(TestConnectionDeprecated.getInstance());
+		
+		deviceCrud.readUsers(TicketingConnectionDeprecated.getInstance());
 		
 		deviceCrud.readUsersAuths(TicketingConnectionDeprecated.getInstance());
 		
 		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnectionDeprecated.getInstance());
 		
-		deviceCrud.SyncDeviceDataWhitDatabaseData(TestConnectionDeprecated.getInstance());
+		deviceCrud.SyncDeviceDataWhitDatabaseData(TicketingConnectionDeprecated.getInstance());
 		
 		
 	//	BuildStationTransaccionTask buildTransaccionTask= new BuildStationTransaccionTask( transaccionRepository,tarjetaRepository);

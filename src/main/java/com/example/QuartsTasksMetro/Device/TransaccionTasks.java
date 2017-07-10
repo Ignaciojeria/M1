@@ -1,4 +1,4 @@
-package com.example.QuartsTasksMetro.Device.ConcreteConnections;
+package com.example.QuartsTasksMetro.Device;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -6,17 +6,14 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.QuartsTasksMetro.Device.BuildAllConnections;
-import com.example.QuartsTasksMetro.Device.Connection;
-import com.example.QuartsTasksMetro.Device.PullSdk;
+import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionListDeprecated;
 import com.example.QuartsTasksMetro.Entity.Transaccion;
-import com.example.QuartsTasksMetro.Repository.ConexionRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 public class TransaccionTasks {
-	
+
 	@Autowired
 	private TransaccionRepository transaccionRepository;
 	
@@ -42,8 +39,6 @@ public class TransaccionTasks {
 
 	
 	public void InitTransaccionTask(Connection connection){
-		
-		
 	//	for (int index = 0; index < BuildAllConnections.getConnections().length; index++) {
 		byte[] arr;
 		HANDLE handle;
@@ -52,6 +47,13 @@ public class TransaccionTasks {
 		handle=BuildAllConnections.getConnections()[localConnection].getConnectHandle();
 		connectionId++;
 	//	for (int i = 0; i <27 ; i++) {
+		try {
+			connection.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		while(true){
 		try { 
 			
 			PullSdk.getPullSdk().GetRTLog(handle, arr, 256);
@@ -111,8 +113,6 @@ public class TransaccionTasks {
 			e.printStackTrace();
 		}
 		}
-		//}
-		
 	}
-
-//}
+		//}
+}
