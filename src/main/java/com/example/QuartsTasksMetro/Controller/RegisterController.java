@@ -39,7 +39,7 @@ public class RegisterController {
 	return "Has sincronizado los datos de la base de datos con todo los dispositivos";
 	}
 	
-
+ 
 	
 	
 
