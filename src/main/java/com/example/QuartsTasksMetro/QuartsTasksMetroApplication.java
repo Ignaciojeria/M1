@@ -108,11 +108,6 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		BuildAllTransaccionTasks buildAllTransaccionTasks= new BuildAllTransaccionTasks();
 		buildAllTransaccionTasks.buildAll();
 		
-		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
-		
-		deviceCrud.readUsersForAllDevices();
-		
-		
 		//	new TransaccionTasks(BuildAllConnections.getConnections()[0]).start();
 		
 	//	System.out.println("pasó el segundo thread");

@@ -19,7 +19,36 @@ public class DeviceCRUD {
 	public DeviceCRUD(TarjetaRepository tarjetaRepository){
 		this.tarjetaRepository=tarjetaRepository;
 	}
-
+	
+//Métodos para todo los dispositivos conectados
+	public void readUsersForAllDevices() {
+		
+		for (int i = 0; i < BuildAllConnections.getConnections().length; i++) {
+			try {
+				readUsers(BuildAllConnections.getConnections()[i]);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void deleteAllRegistersForAllDevices() {
+		
+		for (int i = 0; i < BuildAllConnections.getConnections().length; i++) {
+			deleteAllRegistersForDevice(BuildAllConnections.getConnections()[i]);
+		}
+		
+	}
+	
+	public void SyncDeviceDataWhitDatabaseDataForAllDevices(){
+		for (int i = 0; i < BuildAllConnections.getConnections().length; i++) {
+			SyncDeviceDataWhitDatabaseData(BuildAllConnections.getConnections()[i]);
+		}
+	}
+	
+//--------------------------------------------------------------------
 	public void readUsersAuths(Connection connection) throws UnsupportedEncodingException{
 		
 		try {
@@ -38,7 +67,7 @@ public class DeviceCRUD {
 	}
 	
 	
-	public void readUsers(Connection connection) throws UnsupportedEncodingException{
+	public String readUsers(Connection connection) throws UnsupportedEncodingException{
 		try {
 			connection.join();
 		} catch (InterruptedException e) {
@@ -50,20 +79,9 @@ public class DeviceCRUD {
 	//	Connection.getTicketingConnection();	
 		System.out.println(PullSdk.getPullSdk().GetDeviceData(connection.getConnectHandle(),
 				   arr, buff, "user", "*", "", ""));
-		System.out.println(new String(arr,"UTF8").trim());
-	}
-	
-	public void readUsersForAllDevices() {
-		
-		for (int i = 0; i < BuildAllConnections.getConnections().length; i++) {
-			try {
-				readUsers(BuildAllConnections.getConnections()[i]);
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
+		String users=new String(arr,"UTF8").trim();
+		System.out.println(users);
+		return users;
 	}
 	
 	public void deleteAllRegistersForDevice(Connection connection){
@@ -75,6 +93,13 @@ public class DeviceCRUD {
 		}
 		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "user", "*", "");
 		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "userauthorize", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "holiday", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "holiday", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "timezone", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "firstcard", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "multicard", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "inoutfun", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "templatev10", "*", "");
 	}
 	
 	public HANDLE getHandle(Connection connection){
