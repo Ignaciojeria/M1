@@ -161,7 +161,7 @@ public class TransaccionTaskOldDeprecaded implements Job {
 						return;
 					}
 					
-					transaccionRepository.save(new Transaccion(fechaTransaccion,id,"ticketing",numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
+					transaccionRepository.save(new Transaccion(fechaTransaccion,"ticketing",numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
 
 			
 				

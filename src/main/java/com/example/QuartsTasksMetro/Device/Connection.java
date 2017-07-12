@@ -78,7 +78,7 @@ public class Connection extends Thread{
 	}
 
 	//Tarea Inicial de conectarse con la estación que se realiza de forma recursiva para cada estación hasta lograrse.
-	private void connect(){
+	protected void connect(){
 		backTowash();
 		if(this.connectNumber!=0){
 			System.out.println("Ya existe una conexión con la estación de: "+stationName);
@@ -102,7 +102,7 @@ public class Connection extends Thread{
 					count=0;
 					System.out.println("Para ActiveMQ: Fallo en establecer conexión inicial con: "+stationName);
 				}
-				connect();
+				//connect();
 			}
 		}
 	}
@@ -131,7 +131,7 @@ public class Connection extends Thread{
 		return arr;
 	}
 	
-	private void reestablecer(){
+	protected void reestablecer(){
 		this.connectHandle=null;
 		this.connectNumber=0;
 	}

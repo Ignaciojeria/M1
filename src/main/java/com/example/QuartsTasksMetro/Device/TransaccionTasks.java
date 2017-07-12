@@ -13,6 +13,9 @@ import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 public class TransaccionTasks extends Thread {
+	
+	private byte[] arr;
+	private HANDLE handle;
 
 	
 	private static TransaccionRepository transaccionRepository;
@@ -53,8 +56,6 @@ public class TransaccionTasks extends Thread {
 
 	
 	private void InitTransaccionTask(){
-		byte[] arr;
-		HANDLE handle;
 		int localConnection=connectionId;
 		connectionId++;
 		try {
@@ -83,6 +84,10 @@ public class TransaccionTasks extends Thread {
 				if(arr[localConnection]<=0){
 					System.out.println("Se ha perdido la conexión de la estación de: "+ BuildAllConnections.getConnections()[localConnection].getStationName());
 					//ConnectionList.getInstance().getConnections()[index].connect();
+					BuildAllConnections.getConnections()[localConnection].reestablecer();
+					BuildAllConnections.getConnections()[localConnection].connect();
+					arr=  BuildAllConnections.getConnections()[localConnection].getArr();
+					handle=BuildAllConnections.getConnections()[localConnection].getConnectHandle();
 					break;
 				}
 				String string = new String(arr, "UTF-8");
@@ -102,6 +107,7 @@ public class TransaccionTasks extends Thread {
 					Date fechaTransaccion=null;
 					long numeroTarjeta=Long.parseLong(part3);
 					int numeroPuerta=Integer.parseInt(part4);
+					String estacion= BuildAllConnections.getConnections()[localConnection].getStationName();
 					try{
 						SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						fechaTransaccion= formato.parse(part1);
@@ -126,7 +132,7 @@ public class TransaccionTasks extends Thread {
 							break;
 						}
 						
-						transaccionRepository.save(new Transaccion(fechaTransaccion,id,"ticketing",numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
+						transaccionRepository.save(new Transaccion(fechaTransaccion,estacion,numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
 					
 				}
 			} catch (UnsupportedEncodingException e) {

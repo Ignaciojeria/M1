@@ -53,6 +53,19 @@ public class DeviceCRUD {
 		System.out.println(new String(arr,"UTF8").trim());
 	}
 	
+	public void readUsersForAllDevices() {
+		
+		for (int i = 0; i < BuildAllConnections.getConnections().length; i++) {
+			try {
+				readUsers(BuildAllConnections.getConnections()[i]);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	public void deleteAllRegistersForDevice(Connection connection){
 		try {
 			connection.join();

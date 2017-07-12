@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.QuartsTasksMetro.Device.DeviceCRUD;
 import com.example.QuartsTasksMetro.Device.BuildAllConnections;
+import com.example.QuartsTasksMetro.Device.BuildAllTransaccionTasks;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
 import com.example.QuartsTasksMetro.Device.TransaccionTasks;
@@ -103,12 +104,20 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		TransaccionTasks.setTarjetaRepository(tarjetaRepository);
 		TransaccionTasks.setTransaccionRepository(transaccionRepository);
 		
-		//entonces la idea sería que la calse BuildAllTransaccionTask arme toda las tareas de transacciones correspondientes.
-		new TransaccionTasks(BuildAllConnections.getConnections()[0]).start();
+		//Se arman todas las tareas de conexiones de todas las transacciones
+		BuildAllTransaccionTasks buildAllTransaccionTasks= new BuildAllTransaccionTasks();
+		buildAllTransaccionTasks.buildAll();
 		
-		System.out.println("pasó el segundo thread");
+		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
 		
-		new TransaccionTasks(BuildAllConnections.getConnections()[1]).start();
+		deviceCrud.readUsersForAllDevices();
+		
+		
+		//	new TransaccionTasks(BuildAllConnections.getConnections()[0]).start();
+		
+	//	System.out.println("pasó el segundo thread");
+		
+	//		new TransaccionTasks(BuildAllConnections.getConnections()[1]).start();
 		
 		//transaccionTasks.InitTransaccionTask();
 		
