@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.QuartsTasksMetro.Device.DeviceCRUD;
 import com.example.QuartsTasksMetro.Device.BuildAllConnections;
+import com.example.QuartsTasksMetro.Device.BuildAllTransaccionTasks;
 import com.example.QuartsTasksMetro.Device.Connection;
 import com.example.QuartsTasksMetro.Device.PullSdk;
 import com.example.QuartsTasksMetro.Device.TransaccionTasks;
@@ -38,7 +39,7 @@ import com.sun.jna.platform.win32.WinNT.HANDLE;
 public class QuartsTasksMetroApplication implements CommandLineRunner {
 	
 	 @Autowired
-	 private AlarmaRepository repository;
+	 private AlarmaRepository alarmaRepository;
 	 
 	 @Autowired
 	 private EstacionRepository estacionRepository;
@@ -94,21 +95,40 @@ public class QuartsTasksMetroApplication implements CommandLineRunner {
 		MockTransaccion mockTransaccion = new MockTransaccion(transaccionRepository);
 		mockTransaccion.rellenar();
 		
+		//conecta toda las estaciones. en distintos hilos de ejecución
 		BuildAllConnections buildAllConnections= new BuildAllConnections(conexionRepository,placaRepository);
 		buildAllConnections.buildConnections();
 		buildAllConnections.start();
 		
-		System.out.println("Pasó el thread");
 		
+//      Preparando repositorios para registrar transacciones
+//------------TRANSACCIONES-----------------------
 		TransaccionTasks.setTarjetaRepository(tarjetaRepository);
 		TransaccionTasks.setTransaccionRepository(transaccionRepository);
+//-------------------------------------------------------------------
+//-----------ALARMAS-------------------------------------------------
+		TransaccionTasks.setAlarmaRepository(alarmaRepository);
+		TransaccionTasks.setPlacaRepository(placaRepository);
+//-------------------------------------------------------------------
+		
+		BuildAllTransaccionTasks buildAllTransaccionTasks= new BuildAllTransaccionTasks();
+		buildAllTransaccionTasks.buildAll();
+		
+		DeviceCRUD deviceCrud= new DeviceCRUD(tarjetaRepository);
+		
+		deviceCrud.SyncDeviceDataWhitDatabaseData(BuildAllConnections.getConnections()[0]);
+		deviceCrud.SyncDeviceDataWhitDatabaseData(BuildAllConnections.getConnections()[1]);
+		
+		//deviceCrud.SyncDeviceDataWhitDatabaseDataForAllDevices(BuildAllConnections.getConnections());
+		
+		//deviceCrud.deleteAllRegistersForDevice(BuildAllConnections.getConnections()[1]);
 		
 		//entonces la idea sería que la calse BuildAllTransaccionTask arme toda las tareas de transacciones correspondientes.
-		new TransaccionTasks(BuildAllConnections.getConnections()[0]).start();
+	//	new TransaccionTasks(BuildAllConnections.getConnections()[0]).start();
 		
-		System.out.println("pasó el segundo thread");
+		//System.out.println("pasó el segundo thread");
 		
-		new TransaccionTasks(BuildAllConnections.getConnections()[1]).start();
+		//new TransaccionTasks(BuildAllConnections.getConnections()[1]).start();
 		
 		//transaccionTasks.InitTransaccionTask();
 		

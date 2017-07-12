@@ -8,25 +8,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.QuartsTasksMetro.Device.ConcreteConnections.ConnectionListDeprecated;
 import com.example.QuartsTasksMetro.Entity.Transaccion;
+import com.example.QuartsTasksMetro.Repository.AlarmaRepository;
+import com.example.QuartsTasksMetro.Repository.PlacaRepository;
 import com.example.QuartsTasksMetro.Repository.TarjetaRepository;
 import com.example.QuartsTasksMetro.Repository.TransaccionRepository;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 public class TransaccionTasks extends Thread {
 
-	
-	private static TransaccionRepository transaccionRepository;
-	
-	
-	private static TarjetaRepository tarjetaRepository;
-	
+	private byte[] arr;
+	private HANDLE handle;
 	private Connection connection;
+	private static long id;
+	private static int connectionId;
+	//para registro de transacciones
+	private static TransaccionRepository transaccionRepository;
+	private static TarjetaRepository tarjetaRepository;
+	//fin
 	
-	public TransaccionTasks(Connection connection){
+	//para registro de alarmas
+	private static PlacaRepository placaRepository;
+	private static AlarmaRepository alarmaRepository;
+	
+	protected TransaccionTasks(Connection connection){
 	connectionId=0;
 	this.connection=connection;
 	}
-	
+	//fin
 	
 	
 
@@ -38,23 +46,20 @@ public class TransaccionTasks extends Thread {
 	public static void setTarjetaRepository(TarjetaRepository tarjetaRepository) {
 		TransaccionTasks.tarjetaRepository = tarjetaRepository;
 	}
-
-
-
-	private static long id;
 	
-	private static int connectionId;
-	
-	
+	@Autowired
+	public static void setPlacaRepository(PlacaRepository placaRepository) {
+		TransaccionTasks.placaRepository = placaRepository;
+	}
+	@Autowired
+	public static void setAlarmaRepository(AlarmaRepository alarmaRepository) {
+		TransaccionTasks.alarmaRepository = alarmaRepository;
+	}
 
-	//public void excecuteTasks() { 
-		
-	//}
 
-	
+
+
 	private void InitTransaccionTask(){
-		byte[] arr;
-		HANDLE handle;
 		int localConnection=connectionId;
 		connectionId++;
 		try {
@@ -82,7 +87,10 @@ public class TransaccionTasks extends Thread {
 				
 				if(arr[localConnection]<=0){
 					System.out.println("Se ha perdido la conexión de la estación de: "+ BuildAllConnections.getConnections()[localConnection].getStationName());
-					//ConnectionList.getInstance().getConnections()[index].connect();
+					BuildAllConnections.getConnections()[localConnection].reestablecer();
+					BuildAllConnections.getConnections()[localConnection].connect();
+					arr=  BuildAllConnections.getConnections()[localConnection].getArr();
+					handle=BuildAllConnections.getConnections()[localConnection].getConnectHandle();
 					break;
 				}
 				String string = new String(arr, "UTF-8");
@@ -102,6 +110,7 @@ public class TransaccionTasks extends Thread {
 					Date fechaTransaccion=null;
 					long numeroTarjeta=Long.parseLong(part3);
 					int numeroPuerta=Integer.parseInt(part4);
+					String estacion= BuildAllConnections.getConnections()[localConnection].getStationName();
 					try{
 						SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						fechaTransaccion= formato.parse(part1);
@@ -126,7 +135,7 @@ public class TransaccionTasks extends Thread {
 							break;
 						}
 						
-						transaccionRepository.save(new Transaccion(fechaTransaccion,id,"ticketing",numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
+						transaccionRepository.save(new Transaccion(fechaTransaccion,estacion,numeroPuerta,tarjetaRepository.findByCodigoTarjeta(numeroTarjeta)));
 					
 				}
 			} catch (UnsupportedEncodingException e) {
@@ -145,9 +154,10 @@ public class TransaccionTasks extends Thread {
 
 @Override
 public void run(){
-	System.out.println("primera tarea");
+	System.out.println("thread transaccionTask");
 	InitTransaccionTask();
 }
+
 }
 		
 	/*

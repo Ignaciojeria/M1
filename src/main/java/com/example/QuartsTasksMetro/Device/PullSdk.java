@@ -14,7 +14,7 @@ public class PullSdk {
 
 		 int Connect(String parameters);
 
-		 void Disconnect(HANDLE handle);
+		 void Disconnect(HANDLE handle); 
 
 		 int SetDeviceParam(HANDLE handle, String values);
 

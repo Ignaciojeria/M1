@@ -31,10 +31,10 @@ public class MockTransaccion implements ImockCRUD {
 			Date initDate = fmt.parse("2013-05-06");
 			Date expirationDate =fmt.parse("2018-07-29");
 			
-			transaccionRepository.save(new Transaccion(date,1,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
-			transaccionRepository.save(new Transaccion(date,2,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
-			transaccionRepository.save(new Transaccion(date,3,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
-			transaccionRepository.save(new Transaccion(date,4,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
+			transaccionRepository.save(new Transaccion(date,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
+			transaccionRepository.save(new Transaccion(date,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
+			transaccionRepository.save(new Transaccion(date,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
+			//transaccionRepository.save(new Transaccion(date,4,"Test",1,new Tarjeta(1,3568056030L,true,initDate,expirationDate,new Usuario("Ignacio","jeria",23,18666636,'4'))));
 		}catch(Exception e){
 			System.out.println("Error en MockTransaccion");
 		}

@@ -17,7 +17,7 @@ public class Alarma {
 	@Id
 	@Column(name="id_alarma")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String idAlarma;
+	private long idAlarma;
 	
 	@Column(name="mensaje")
 	private String mensaje;
@@ -29,21 +29,24 @@ public class Alarma {
 	@JoinColumn(name="FK_placa", nullable=false)
 	private Placa placa;
 	
+	@Column(name="activo")
+	private boolean activo;
+	
 	public Alarma(){}
 
-	public Alarma(String idAlarma, String mensaje, int codigoError, Placa placa) {
-		this.idAlarma = idAlarma;
+	public Alarma(String mensaje, int codigoError, Placa placa, boolean activo) {
 		this.mensaje = mensaje;
 		this.codigoError = codigoError;
 		this.placa = placa;
+		this.activo=activo;
 	}
 
-	public String getIdAlarma() {
+	public long getIdAlarma() {
 		return idAlarma;
 	}
 
-	public void setIdAlarma(String idAlarma) {
-		this.idAlarma = idAlarma;
+	public void setIdAlarma(long idAlarma) {
+	 	this.idAlarma = idAlarma;
 	}
 
 	public String getMensaje() {
@@ -69,4 +72,14 @@ public class Alarma {
 	public void setPlaca(Placa placa) {
 		this.placa = placa;
 	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+
 }

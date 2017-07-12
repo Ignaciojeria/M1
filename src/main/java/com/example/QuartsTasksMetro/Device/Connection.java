@@ -71,6 +71,7 @@ public class Connection extends Thread{
 			this.connectNumber = connectNumber;
 			this.connectHandle=new HANDLE(new Pointer(this.connectNumber));
 		}else{
+			
 			throw new AlarmMessageControl ("No se ha podido establecer conexión con la estación de "+
 											this.stationName+"."+ " Código de error: "+PullSdk.getPullSdk().PullLastError());
 		}
@@ -78,11 +79,11 @@ public class Connection extends Thread{
 	}
 
 	//Tarea Inicial de conectarse con la estación que se realiza de forma recursiva para cada estación hasta lograrse.
-	private void connect(){
+	protected boolean connect(){
 		backTowash();
 		if(this.connectNumber!=0){
 			System.out.println("Ya existe una conexión con la estación de: "+stationName);
-			return;
+			return true;
 		}
 		try{
 		this.setConnectNumber(PullSdk.getPullSdk().Connect("protocol="+protocol+","
@@ -102,9 +103,12 @@ public class Connection extends Thread{
 					count=0;
 					System.out.println("Para ActiveMQ: Fallo en establecer conexión inicial con: "+stationName);
 				}
-				connect();
+				//connect();
+				return false;
 			}
+			return false;
 		}
+		return false;
 	}
 	private void disconnect() throws AlarmMessageControl{
 		if(this.connectNumber!=0){
@@ -131,7 +135,7 @@ public class Connection extends Thread{
 		return arr;
 	}
 	
-	private void reestablecer(){
+	protected void reestablecer(){
 		this.connectHandle=null;
 		this.connectNumber=0;
 	}

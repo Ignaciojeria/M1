@@ -62,6 +62,13 @@ public class DeviceCRUD {
 		}
 		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "user", "*", "");
 		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "userauthorize", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "transaction", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "holiday", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "timezone", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "firstcard", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "multicard", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "inoutfun", "*", "");
+		PullSdk.getPullSdk().DeleteDeviceData(connection.getConnectHandle(), "templatev10", "*", "");
 	}
 	
 	public HANDLE getHandle(Connection connection){
@@ -74,6 +81,9 @@ public class DeviceCRUD {
 		return connection.getConnectHandle();
 	}
 	
+	public void deleteAllRegistersForAllDevices(){
+		
+	}
 	
 	public void SyncDeviceDataWhitDatabaseData(Connection connection){	
 		try {
@@ -84,6 +94,10 @@ public class DeviceCRUD {
 		}
 		PullSdk.getPullSdk().SetDeviceData(connection.getConnectHandle(), "user",findAllTarjetasAndBuildUserTableForDevice(), "");
 		PullSdk.getPullSdk().SetDeviceData(connection.getConnectHandle(), "userauthorize", FindTarjetasAndBuildUserauthorizeTableForDevice(), "");
+	}
+	
+	public void SyncDeviceDataWhitDatabaseDataForAllDevices(){
+
 	}
 	
 	private String findAllTarjetasAndBuildUserTableForDevice(){

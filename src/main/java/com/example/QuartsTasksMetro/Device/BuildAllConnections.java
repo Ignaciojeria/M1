@@ -37,9 +37,10 @@ public class BuildAllConnections extends Thread{
 		}
 	}
 	
-	public void run() {
+	public void run(){
 		connectAll();
 	}
+
 	
 	private void connectAll(){
 		for (int i = 0; i < connections.length; i++) {
@@ -47,8 +48,9 @@ public class BuildAllConnections extends Thread{
 		}
 	}
 	
+	
 	public static Connection[] getConnections(){
 		return connections;
 	}
-
+	 
 }

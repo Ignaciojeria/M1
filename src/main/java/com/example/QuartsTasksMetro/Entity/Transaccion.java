@@ -34,9 +34,9 @@ public class Transaccion {
 	
 	public Transaccion(){}
 
-	public Transaccion(Date fechaTransaccion, long numeroTransaccion, String estacion, int puerta, Tarjeta tarjeta) {
+	public Transaccion(Date fechaTransaccion, String estacion, int puerta, Tarjeta tarjeta) {
 		this.fechaTransaccion = fechaTransaccion;
-		this.numeroTransaccion = numeroTransaccion;
+	//	this.numeroTransaccion = numeroTransaccion;
 		this.estacion = estacion;
 		this.puerta = puerta;
 		this.tarjeta = tarjeta;

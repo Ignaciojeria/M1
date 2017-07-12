@@ -20,7 +20,6 @@ public class MockAlarma implements ImockCRUD {
 	@Override
 	public void rellenar() {
 		// TODO Auto-generated method stub
-		
 	}
 	 
 	
