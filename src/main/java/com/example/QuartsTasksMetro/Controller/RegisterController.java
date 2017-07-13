@@ -27,7 +27,7 @@ public class RegisterController {
 		return new DeviceCRUD(tarjetaRepository).readUsers(BuildAllConnections.getConnections()[0]);
 	}
 	
-	@GetMapping(value="deleteAllForAllDevices")
+	@GetMapping(value="deleteAllForAllDevices") 
 	public String deleteAllRegistersForAllDevices() throws UnsupportedEncodingException{
 	new DeviceCRUD(tarjetaRepository).deleteAllRegistersForAllDevices();
 	return "Has borrado los usuarios y todo registro existente de todos los dispositivos";
